@@ -11,9 +11,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UsrArticleController {
 	
+	// 인스턴스 변수
 	private int lastArticldId;
 	private List<Article> articles;
 	
+	//클래스 변수
+	// static 변수
+	
+	// 생성자
 	public UsrArticleController() {
 		this.lastArticldId = 0;
 		this.articles = new ArrayList<>();
@@ -118,14 +123,18 @@ public class UsrArticleController {
 	}
 
 
-//	@RequestMapping("/usr/article/getArticle")
-//	@ResponseBody 
-//	public String getArticle() {
-//		
-//		wrtieArticle(id);
-//		
-//		return id + "번 게시물을 게시했습니다.";
-//	}
+	@RequestMapping("/usr/article/getArticle")
+	@ResponseBody 
+	public Object getArticleAction(int id) { // 상세보기
+		
+		Article article = getArticle(id);
+		
+		if(article == null) {
+			return id + "번 게시물은 존재하지 않습니다.";
+		}
+		
+		return article;
+	}
 
 	
 }
