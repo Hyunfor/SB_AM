@@ -56,16 +56,17 @@ public class UsrArticleController {
 	}
 	
 	private void deleteArticle(int id) {
-		Article article = getArticle(id);
+		Article article = getArticle(id); // get는 데이터를 가져오는것.
 		
 		articles.remove(article);
 	}
 	
-	private void modifyArticle(int id) {
+	private void modifyArticle(int id, String title, String body) {
 		Article article = getArticle(id);
 		
-		articles.remove(article);
-		
+		article.setTitle(title); // set는 데이터를 변경하는것
+		article.setBody(body);
+	
 	}
 
 	
@@ -102,7 +103,8 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
-	public String doModify(int id) {
+	public Object doModify(int id, String title, String body) { 
+		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
 		
 		Article article = getArticle(id);
 		
@@ -110,20 +112,20 @@ public class UsrArticleController {
 			return id + "번 게시물은 존재하지 않습니다.";
 		}
 		
-		modifyArticle(id);
+		modifyArticle(id, title, body);
 		
-		return id + "번 게시물을 수정했습니다.";
+		return article;
 	}
 
 
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody 
-	public String getArticle() {
-		
-		wrtieArticle(id);
-		
-		return id + "번 게시물을 게시했습니다.";
-	}
+//	@RequestMapping("/usr/article/getArticle")
+//	@ResponseBody 
+//	public String getArticle() {
+//		
+//		wrtieArticle(id);
+//		
+//		return id + "번 게시물을 게시했습니다.";
+//	}
 
 	
 }
