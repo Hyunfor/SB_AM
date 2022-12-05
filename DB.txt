@@ -40,3 +40,21 @@ title = '폴드4',
 `body` = '폴드4';
 
 SELECT LAST_INSERT_ID();
+
+# member 테이블 생성
+CREATE TABLE `member` (
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	loginId VARCHAR(100) NOT NULL UNIQUE,
+	updatetDate DATETIME NOT NULL,
+	loginId VARCHAR(20) NOT NULL,
+	loginPw VARCHAR(100) NOT NULL,
+	`authLevel` SMALLINT UNSIGNED NOT NULL DEFAULT 3 COMMENT '권한 레벨 (3 = 일반, 7 = 관리자)',
+	`name` VARCHAR(20) NOT NULL,
+	nickname VARCHAR(20) NOT NULL,
+	cellphoneNum VARCHAR(20) NOT NULL,
+	email VARCHAR(50) NOT NULL,
+	delStatus TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '탈퇴여부(0 = 탈퇴 전, 1 = 탈퇴 후)',
+	delDate DATETIME COMMENT '탈퇴 날짜'
+);
+
