@@ -38,3 +38,5 @@ SET regDate = NOW(),
 updatetDate = NOW(),
 title = '폴드4',
 `body` = '폴드4';
+
+SELECT LAST_INSERT_ID();
