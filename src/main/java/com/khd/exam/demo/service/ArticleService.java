@@ -9,15 +9,13 @@ import com.khd.exam.demo.repository.ArticleRepository;
 import com.khd.exam.demo.vo.Article;
 
 @Service
-public class ArticleService{
+public class ArticleService {
 	
 	private ArticleRepository articleRepository;
 
 	@Autowired
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-
-		articleRepository.makeTestData();
 	}
 
 	public Article getArticle(int id) {
