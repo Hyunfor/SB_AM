@@ -47,11 +47,11 @@ public class UsMemberController {
 		int id = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		if(id == -1) { // memberService에서 중복 로그인 아이디가 걸렸을시
-			return "이미 사용중인 아이디 입니다.";
+			return Utility.f("이미 사용중인 아이디(%s) 입니다.", loginId);
 		}
 		
-		if(id == -2) { // memberService에서 중복 이름과 이메일가 걸렸을시
-			return "이미 사용중인 이름과 이메일 입니다.";
+		if(id == -2) { // 이름 + 이메일 중복체크
+			return Utility.f("이미 사용중인 이름(%s)과 이메일(%s) 입니다.", name, email);
 		}
 		
 		Member member = memberService.getMemberById(id);
