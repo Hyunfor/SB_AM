@@ -27,19 +27,19 @@ public class UsMemberController {
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
 			return "아이디를 입력해주세요.";
 		}
-		if(Utility.empty(loginPw)) { // 유효성 검사(공백)
+		if(Utility.empty(loginPw)) { 
 			return "비밀번호를 입력해주세요.";
 		}
-		if(Utility.empty(name)) { // 유효성 검사(공백)
+		if(Utility.empty(name)) { 
 			return "이름을 입력해주세요.";
 		}
-		if(Utility.empty(nickname)) { // 유효성 검사(공백)
+		if(Utility.empty(nickname)) { 
 			return "닉네임을 입력해주세요.";
 		}
-		if(Utility.empty(cellphoneNum)) { // 유효성 검사(공백)
+		if(Utility.empty(cellphoneNum)) { 
 			return "핸드폰 번호를 입력해주세요.";
 		}
-		if(Utility.empty(email)) { // 유효성 검사(공백)
+		if(Utility.empty(email)) { 
 			return "이메일을 입력해주세요.";
 		}
 		
@@ -48,6 +48,10 @@ public class UsMemberController {
 		
 		if(id == -1) { // memberService에서 중복 로그인 아이디가 걸렸을시
 			return "이미 사용중인 아이디 입니다.";
+		}
+		
+		if(id == -2) { // memberService에서 중복 이름과 이메일가 걸렸을시
+			return "이미 사용중인 이름과 이메일 입니다.";
 		}
 		
 		Member member = memberService.getMemberById(id);

@@ -25,17 +25,30 @@ public class MemberService {
 			return -1;
 		}
 		
+		// 이름 + 이메일 중복체크
+		existsMember = getMemberByNameAndEmail(name, email);
+		if(existsMember != null) {
+			return -2;
+		}
+		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		return memberRepository.getLastInsertId();
 	}
 
+
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);
 	}
 	
-	public Member getMemberByLoginId(String loginId) {
+	private Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
 	}
+	
+	private Member getMemberByNameAndEmail(String name, String email) {
+		return memberRepository.getMemberByNameAndEmail(name, email);
+	}
+
+	
 
 }
