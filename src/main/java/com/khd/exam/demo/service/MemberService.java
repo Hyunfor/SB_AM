@@ -18,6 +18,12 @@ public class MemberService {
 
 	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
+		Member existsMember = getMemberByLoginId(loginId);
+		
+		if(existsMember != null) { // 중복 로그인 아이디 체크
+			return -1;
+		}
+		
 		memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		return memberRepository.getLastInsertId();
@@ -25,6 +31,10 @@ public class MemberService {
 
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);
+	}
+	
+	public Member getMemberByLoginId(String loginId) {
+		return memberRepository.getMemberByLoginId(loginId);
 	}
 
 }

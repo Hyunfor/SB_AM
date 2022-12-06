@@ -21,9 +21,33 @@ public class UsMemberController {
 // 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody 
-	public Member doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+		
+		if(loginId == null || loginId.trim().length() == 0) { // 유효성 검사(공백)
+			return "아이디를 입력해주세요.";
+		}
+		if(loginPw == null || loginPw.trim().length() == 0) { // 유효성 검사(공백)
+			return "비밀번호를 입력해주세요.";
+		}
+		if(name == null || name.trim().length() == 0) { // 유효성 검사(공백)
+			return "이름을 입력해주세요.";
+		}
+		if(nickname == null || nickname.trim().length() == 0) { // 유효성 검사(공백)
+			return "닉네임을 입력해주세요.";
+		}
+		if(cellphoneNum == null || cellphoneNum.trim().length() == 0) { // 유효성 검사(공백)
+			return "핸드폰 번호를 입력해주세요.";
+		}
+		if(email == null || email.trim().length() == 0) { // 유효성 검사(공백)
+			return "이메일을 입력해주세요.";
+		}
+		
 		
 		int id = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+		
+		if(id == -1) { // memberService에서 중복 로그인 아이디가 걸렸을시
+			return "이미 사용중인 아이디 입니다.";
+		}
 		
 		Member member = memberService.getMemberById(id);
 		
