@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.khd.exam.demo.Utlity.Utility;
 import com.khd.exam.demo.service.MemberService;
 import com.khd.exam.demo.vo.Member;
 
@@ -23,22 +24,22 @@ public class UsMemberController {
 	@ResponseBody 
 	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
-		if(loginId == null || loginId.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(loginId)) { // 유효성 검사(공백)
 			return "아이디를 입력해주세요.";
 		}
-		if(loginPw == null || loginPw.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(loginPw)) { // 유효성 검사(공백)
 			return "비밀번호를 입력해주세요.";
 		}
-		if(name == null || name.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(name)) { // 유효성 검사(공백)
 			return "이름을 입력해주세요.";
 		}
-		if(nickname == null || nickname.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(nickname)) { // 유효성 검사(공백)
 			return "닉네임을 입력해주세요.";
 		}
-		if(cellphoneNum == null || cellphoneNum.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(cellphoneNum)) { // 유효성 검사(공백)
 			return "핸드폰 번호를 입력해주세요.";
 		}
-		if(email == null || email.trim().length() == 0) { // 유효성 검사(공백)
+		if(Utility.empty(email)) { // 유효성 검사(공백)
 			return "이메일을 입력해주세요.";
 		}
 		
