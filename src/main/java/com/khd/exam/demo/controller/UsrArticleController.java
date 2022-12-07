@@ -2,8 +2,10 @@ package com.khd.exam.demo.controller;
 
 import java.util.List;
 
+import com.khd.exam.demo.Utlity.Utility;
 import com.khd.exam.demo.service.ArticleService;
 import com.khd.exam.demo.vo.Article;
+import com.khd.exam.demo.vo.ResultData;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,17 +75,16 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody 
-	public Object getArticle(int id) { { // 상세보기
+	public ResultData getArticle(int id) { // 상세보기
 		
 		Article article = articleService.getArticle(id);
 		
 		if (article == null) {
-			return id + "번 게시물은 존재하지 않습니다.";
+			return ResultData.from("F-1", Utility.f("%d번 게시물은 존재하지 않습니다", id));
+//			return id + "번 게시물은 존재하지 않습니다.";
 		}
 		
-		return article;
+		return ResultData.from("S-1", Utility.f("%d번 게시물 입니다", id), article);
 	}
 
-	}
-	
 }

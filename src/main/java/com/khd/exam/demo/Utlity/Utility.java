@@ -17,7 +17,7 @@ public class Utility {
 		return str.trim().length() == 0;
 	}
 						// 첫번째 매개인자  두번째 매개인자
-	public static Object f(String format, Object...args) {
+	public static String f(String format, Object...args) {
 		
 		return String.format(format, args);
 	}
