@@ -12,12 +12,12 @@ public class ResultData {
 	@Getter
 	private Object data1;
 	
-	// 오버로딩
+	// 오버로딩 // from 리턴타입 메서드로 만든것 뿐
 	public static ResultData from(String resultCode, String msg) {
 		
-		return from(resultCode, msg, null);
+		return from(resultCode, msg, null); 
 	}
-	// 오버로딩
+	// 오버로딩 // from 리턴타입 메서드로 만든것 뿐
 	public static ResultData from(String resultCode, String msg, Object data1) {
 		ResultData rd = new ResultData();
 		rd.resultCode = resultCode;
