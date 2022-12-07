@@ -7,7 +7,7 @@ USE SB_AM;
 CREATE TABLE article(
 	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	regDate DATETIME NOT NULL,
-	updatetDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
 	title VARCHAR(200) NOT NULL,
 	`body` TEXT NOT NULL
 );
@@ -23,19 +23,19 @@ WHERE id = ?;
 # article 데이터 추가
 INSERT INTO article
 SET regDate = NOW(),
-updatetDate = NOW(),
+updateDate = NOW(),
 title = '아이폰14',
 `body` = '아이폰14';
 
 INSERT INTO article
 SET regDate = NOW(),
-updatetDate = NOW(),
+updateDate = NOW(),
 title = '플립4',
 `body` = '플립4';
 
 INSERT INTO article
 SET regDate = NOW(),
-updatetDate = NOW(),
+updateDate = NOW(),
 title = '폴드4',
 `body` = '폴드4';
 
@@ -93,5 +93,6 @@ cellphoneNum = '01033334444',
 email = 'http-@naver.com';
 
 
+http://localhost:8084/usr/article/doAdd?title=1235&body=2345
 
 http://localhost:8084/usr/member/doJoin?loginId=test4&loginPw=test4&name=test4&nickname=test4&cellphoneNum=004-004-004&email=test4

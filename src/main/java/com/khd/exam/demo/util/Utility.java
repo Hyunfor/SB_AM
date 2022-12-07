@@ -1,4 +1,4 @@
-package com.khd.exam.demo.Utlity;
+package com.khd.exam.demo.util;
 
 public class Utility {
 

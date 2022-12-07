@@ -2,8 +2,8 @@ package com.khd.exam.demo.controller;
 
 import java.util.List;
 
-import com.khd.exam.demo.Utlity.Utility;
 import com.khd.exam.demo.service.ArticleService;
+import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
 import com.khd.exam.demo.vo.ResultData;
 
@@ -25,19 +25,29 @@ public class UsrArticleController {
 // 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody 
-	public Article doAdd(String title, String body) {
-		int id = articleService.writeArticle(title, body);
+	public ResultData doAdd(String title, String body) {
+		
+		if(Utility.empty(title)) { // 유효성 검사(공백)
+			return ResultData.from("F-1", "제목을 입력해주세요.");
+		}
+		if(Utility.empty(body)) { 
+			return ResultData.from("F-2", "내용을 입력해주세요.");
+		}
+		
+		ResultData writeArticleRd = articleService.writeArticle(title, body);
+			
+		Article article = articleService.getArticle((int)writeArticleRd.getData1()); // Data는 Object라 int로 형변환
 
-		Article article = articleService.getArticle(id);
-
-		return article;
+		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
 	}
 	
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody 
-	public List<Article> getArticles() {
+	public ResultData getArticles() {
 		
-		return articleService.getArticles();
+		List<Article> articles = articleService.getArticles();
+		
+		return ResultData.from("S-1", "게시물 리스트", articles);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")

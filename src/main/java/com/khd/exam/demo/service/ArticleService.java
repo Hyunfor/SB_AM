@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.khd.exam.demo.repository.ArticleRepository;
+import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
+import com.khd.exam.demo.vo.ResultData;
 
 @Service
 public class ArticleService {
@@ -34,9 +36,11 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
-	public int writeArticle(String title, String body) {
+	public ResultData writeArticle(String title, String body) {
 		articleRepository.writeArticle(title, body);
-		return articleRepository.getLastInsertId();
+		int id = articleRepository.getLastInsertId();
+		// 서비스에서 결과를 컨트롤러를 받아감
+		return ResultData.from("S-1", Utility.f("%d번 게시물이 생성되었습니다.", id), id);
 	}
 
 }
