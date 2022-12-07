@@ -36,7 +36,7 @@ public class ArticleService {
 		return articleRepository.getArticles();
 	}
 
-	public ResultData writeArticle(String title, String body) {
+	public ResultData<Integer> writeArticle(String title, String body) {
 		articleRepository.writeArticle(title, body);
 		int id = articleRepository.getLastInsertId();
 		// 서비스에서 결과를 컨트롤러를 받아감
