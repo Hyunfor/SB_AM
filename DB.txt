@@ -96,3 +96,7 @@ email = 'http-@naver.com';
 http://localhost:8084/usr/article/doAdd?title=1235&body=2345
 
 http://localhost:8084/usr/member/doJoin?loginId=test4&loginPw=test4&name=test4&nickname=test4&cellphoneNum=004-004-004&email=test4
+
+http://localhost:8084/usr/member/doLogin?loginId=test1&loginPw=test1
+
+http://localhost:8084/usr/member/doLogout
