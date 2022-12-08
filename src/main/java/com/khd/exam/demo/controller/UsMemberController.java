@@ -24,7 +24,7 @@ public class UsMemberController {
 // 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody 
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
 			return ResultData.from("F-1", "아이디를 입력해주세요.");
@@ -46,10 +46,11 @@ public class UsMemberController {
 		}
 		
 		
-		ResultData doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+		ResultData<Integer> doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		if(doJoinRd.isFail()) { // memberService에서 중복 아이디 or 이름, 이메일 체크	
-			return doJoinRd;
+			return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg()); // 방법1
+//			return (ResultData) doJoinRd; // 방법2
 		}
 	
 		Member member = memberService.getMemberById((int)doJoinRd.getData1()); // Data는 Object라 int로 형변환
