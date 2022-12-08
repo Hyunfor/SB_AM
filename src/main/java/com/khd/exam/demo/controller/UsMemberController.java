@@ -95,7 +95,7 @@ public class UsMemberController {
 	@ResponseBody 
 	public ResultData doLogout(HttpSession httpSession) {
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 중복 로그인 방지
+		if(httpSession.getAttribute("loginedMemberId") == null) { // 중복 로그인 방지
 			return ResultData.from("F-1", "로그아웃 상태입니다.");
 		}
 		

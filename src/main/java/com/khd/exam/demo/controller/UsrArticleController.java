@@ -29,7 +29,7 @@ public class UsrArticleController {
 	@ResponseBody 
 	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
@@ -62,7 +62,7 @@ public class UsrArticleController {
 	@ResponseBody 
 	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
@@ -84,7 +84,7 @@ public class UsrArticleController {
 	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) { 
 		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
