@@ -43,7 +43,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody 
-	public ResultData getArticles() {
+	public ResultData<List<Article>> getArticles() {
 		
 		List<Article> articles = articleService.getArticles();
 		
@@ -52,40 +52,40 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody 
-	public String doDelete(int id) {
+	public ResultData<Integer> doDelete(int id) {
 		
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
-			return id + "번 게시물은 존재하지 않습니다.";
+			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
 		}
 		
 		articleService.deleteArticle(id);
 		
-		return id + "번 게시물을 삭제했습니다.";
+		return ResultData.from("S-1", Utility.f("게시물을 삭제했습니다.", id), id);
 	} 
 	
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
-	public Object doModify(int id, String title, String body) { 
+	public ResultData<Integer> doModify(int id, String title, String body) { 
 		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
 		
 		Article article = articleService.getArticle(id);
 		
 		if(article == null) {
-			return id + "번 게시물은 존재하지 않습니다.";
+			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
 		}
 		
 		articleService.modifyArticle(id, title, body);
 		
-		return article;
+		return ResultData.from("S-1", Utility.f("%번 게시물을 수정했습니다.", id), id);
 	}
 
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody 
-	public ResultData getArticle(int id) { // 상세보기
+	public ResultData<Article> getArticle(int id) { // 상세보기
 		
 		Article article = articleService.getArticle(id);
 		
