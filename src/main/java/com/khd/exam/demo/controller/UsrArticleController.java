@@ -7,6 +7,8 @@ import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
 import com.khd.exam.demo.vo.ResultData;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +27,13 @@ public class UsrArticleController {
 // 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody 
-	public ResultData<Article> doAdd(String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
+	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+		}
+		
+		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
 			return ResultData.from("F-1", "제목을 입력해주세요.");
@@ -34,7 +42,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(loginedMemberId, title, body);
 			
 		Article article = articleService.getArticle((int)writeArticleRd.getData1()); // Data는 Object라 int로 형변환
 
@@ -52,7 +60,12 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody 
-	public ResultData<Integer> doDelete(int id) {
+	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+		}
+		
 		
 		Article article = articleService.getArticle(id);
 
@@ -68,8 +81,12 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
-	public ResultData<Integer> doModify(int id, String title, String body) { 
+	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) { 
 		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+		}
 		
 		Article article = articleService.getArticle(id);
 		

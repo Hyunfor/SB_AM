@@ -92,6 +92,16 @@ nickname = '유저2',
 cellphoneNum = '01033334444',
 email = 'http-@naver.com';
 
+ALTER TABLE article ADD COLUMN memberId INT UNSIGNED NOT NULL AFTER updateDate;
+
+## 테스트
+UPDATE article
+SET memberId = 2
+
+UPDATE article 
+SET memberId = 3
+WHERE title = "아이폰14";
+
 
 http://localhost:8084/usr/article/doAdd?title=1235&body=2345
 
