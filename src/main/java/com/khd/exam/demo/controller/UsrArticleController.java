@@ -30,7 +30,7 @@ public class UsrArticleController {
 	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
 		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+			return ResultData.from("F-A",  "로그인 후 이용해주세요.");
 		}
 		
 		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
@@ -46,7 +46,7 @@ public class UsrArticleController {
 			
 		Article article = articleService.getArticle((int)writeArticleRd.getData1()); // Data는 Object라 int로 형변환
 
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), article);
+		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "article", article);
 	}
 	
 	@RequestMapping("/usr/article/getArticles")
@@ -55,7 +55,7 @@ public class UsrArticleController {
 		
 		List<Article> articles = articleService.getArticles();
 		
-		return ResultData.from("S-1", "게시물 리스트", articles);
+		return ResultData.from("S-1", "게시물 리스트", "article", articles);
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
@@ -66,6 +66,7 @@ public class UsrArticleController {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
+		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		Article article = articleService.getArticle(id);
 
@@ -73,20 +74,26 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
 		}
 		
+		if(loginedMemberId != article.getMemberId()) { // 권한체크
+			return ResultData.from("F-B", "해당 게시물에 대한 권한이 없습니다.");
+		}
+		
 		articleService.deleteArticle(id);
 		
-		return ResultData.from("S-1", Utility.f("게시물을 삭제했습니다.", id), id);
+		return ResultData.from("S-1", Utility.f("게시물을 삭제했습니다.", id), "id", id);
 	} 
 	
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
-	public ResultData<Integer> doModify(HttpSession httpSession, int id, String title, String body) { 
+	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) { 
 		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
 		
 		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
+		
+		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		Article article = articleService.getArticle(id);
 		
@@ -94,9 +101,14 @@ public class UsrArticleController {
 			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		articleService.modifyArticle(id, title, body);
+		// 현재 수정이 가능한가 체크
+		ResultData actorCanModifyRd = articleService.actorCanModify(loginedMemberId, article); 
 		
-		return ResultData.from("S-1", Utility.f("%번 게시물을 수정했습니다.", id), id);
+		if(actorCanModifyRd.isFail()) {  // 실패시에 
+			return actorCanModifyRd;
+		}
+		
+		return articleService.modifyArticle(id, title, body);
 	}
 
 
@@ -111,7 +123,7 @@ public class UsrArticleController {
 //			return id + "번 게시물은 존재하지 않습니다.";
 		}
 		
-		return ResultData.from("S-1", Utility.f("%d번 게시물 입니다", id), article);
+		return ResultData.from("S-1", Utility.f("%d번 게시물 입니다", id), "article", article);
 	}
 
 }

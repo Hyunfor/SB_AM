@@ -56,7 +56,7 @@ public class UsMemberController {
 	
 		Member member = memberService.getMemberById((int)doJoinRd.getData1()); // Data는 Object라 int로 형변환
 		
-		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), member);
+		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), "member", member);
 		
 	}
 	
