@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor // 인자 포함한 생성자를 만듬
 public class Member{
 	private int id;
-	private LocalDateTime regDate;
-	private LocalDateTime updateDate;
+	private String regDate;
+	private String updateDate;
 	private String loginId;
 	private String loginPw;
 	private String authLevel;
@@ -20,7 +20,7 @@ public class Member{
 	private String cellphoneNum;
 	private String email;
 	private String delStatus;
-	private LocalDateTime delDate;
+	private String delDate;
 	
 }
 

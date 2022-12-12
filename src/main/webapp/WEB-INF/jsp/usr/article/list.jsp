@@ -7,7 +7,6 @@
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
-
 			<table>
 				<thead>
 					<tr>
@@ -17,30 +16,19 @@
 						<th>작성자</th>
 					</tr>
 				</thead>
-		
+
 				<tbody>
-		
-					<c:forEach var ="pageList" items="${articles}">
-					<tr>
-						<td>${article.id}</td>
-						<td>${article.regDate}</td>
-						<td><a href="../article/detail?id=${article.id}">${article.title}</a></td>
-						<td>${article.memberId}</td>
-					</tr>
+					<c:forEach var="article" items="${articles}">
+						<tr>
+							<td>${article.id}</td>
+							<td>${article.regDate.substring(2, 16)}</td>
+							<td><a href="../article/detail?id=${article.id}">${article.title}</a></td>
+							<td>${article.memberId}</td>
+						</tr>
 					</c:forEach>
-			
 				</tbody>
-	
 			</table>
-	
 		</div>
-		
 	</div>
-	
 </section>
-
-
-
-	
-
-<%@ include file="../common/foot.jsp" %>		
+<%@ include file="../common/foot.jsp"%>	

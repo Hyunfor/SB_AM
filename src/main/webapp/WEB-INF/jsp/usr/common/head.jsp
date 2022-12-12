@@ -20,25 +20,20 @@
 <body>
 	
 	<header>
-		<div class="h-20 flex container mx-auto text-3xl">
-			<a class=" h-full px-3 flex items-center" href="#"><span>로고</span></a>
-			<div class="flex-gorw"></div>
-			<ul class="flex " >
-				<li class="hover:underline"><a class="h-full px-3 flex items-center"  href="/"><span>HOME</span></a></li>
-				<li class="hover:underline"><a class="h-full px-3 flex items-center"  href="/usr/article/list"><span>LIST</span></a></li>
-				<li class="hover:underline"><a class="h-full px-3 flex items-center"  href="/usr/member/login"><span>Login</span></a></li>
+		<div class="h-20 flex container mx-auto text-4xl">
+			<a class="h-full px-3 flex items-center" href="#"><span>로고</span></a>
+			<div class="flex-grow"></div>
+			<ul class="flex">
+				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/"><span>HOME</span></a></li>
+				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/article/list"><span>LIST</span></a></li>
+				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/login"><span>LOGIN</span></a></li>
 			</ul>
 		</div>
-		
-		
 	</header>
-	
-	<section class="my-3 text-2x1">
+
+	<section class="my-3 text-2xl">
 		<div class="container mx-auto px-3">
 			<h1>${pageTitle}&nbsp;Page</h1>
 		</div>
 	</section>
-	
 	<main>
-	
-	

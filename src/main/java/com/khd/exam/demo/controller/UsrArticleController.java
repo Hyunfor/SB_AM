@@ -115,18 +115,14 @@ public class UsrArticleController {
 	}
 
 
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody 
-	public ResultData<Article> getArticle(int id) { // 상세보기
+	@RequestMapping("/usr/article/detail")
+	public String detail(Model model, int id) { // 상세보기
 		
 		Article article = articleService.getArticle(id);
 		
-		if (article == null) {
-			return ResultData.from("F-1", Utility.f("%d번 게시물은 존재하지 않습니다", id));
-//			return id + "번 게시물은 존재하지 않습니다.";
-		}
+		model.addAttribute("article", article);
 		
-		return ResultData.from("S-1", Utility.f("%d번 게시물 입니다", id), "article", article);
+		return "usr/article/detail";
 	}
 
 }
