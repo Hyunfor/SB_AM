@@ -1,5 +1,7 @@
 package com.khd.exam.demo.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +11,6 @@ import com.khd.exam.demo.service.MemberService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Member;
 import com.khd.exam.demo.vo.ResultData;
-
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UsMemberController {

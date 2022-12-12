@@ -2,17 +2,19 @@ package com.khd.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.khd.exam.demo.service.ArticleService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
 import com.khd.exam.demo.vo.ResultData;
 
-import jakarta.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UsrArticleController {
@@ -49,13 +51,14 @@ public class UsrArticleController {
 		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "article", article);
 	}
 	
-	@RequestMapping("/usr/article/getArticles")
-	@ResponseBody 
-	public ResultData<List<Article>> getArticles() {
+	@RequestMapping("/usr/article/list")
+	public String showList(Model model) {
 		
 		List<Article> articles = articleService.getArticles();
 		
-		return ResultData.from("S-1", "게시물 리스트", "article", articles);
+		model.addAttribute("articles", articles); // model에게 articles 속성 추가
+		
+		return "usr/article/list";
 	}
 	
 	@RequestMapping("/usr/article/doDelete")
