@@ -6,12 +6,12 @@
 <meta charset="UTF-8">
 <title>${pageTitle}</title>
 
-<!-- 테일윈드 불러오기
-노말라이즈, 라이브러리 -->
+<!-- 테일윈드 불러오기 -->
+<!-- 노말라이즈, 라이브러리 -->
 <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
 <!-- 제이쿼리 불러오기 -->
-<script scr="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-<!-- 폰트어썸 불러오기-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<!-- 폰트어썸 불러오기 -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" />
 <!-- 커스텀 공통 CSS -->
 <link rel="stylesheet" href="/resource/common.css" />

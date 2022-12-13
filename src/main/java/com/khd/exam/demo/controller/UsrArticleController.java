@@ -100,12 +100,13 @@ public class UsrArticleController {
 		
 		Article article = articleService.getArticle(id);
 		
-		if(article == null) {
-			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
-		}
+		// actorCanDelete , actorCanModify 같은 기능을 사용하기에 하나로 합친 기능에 포함되어있어서 지워도 됨.
+//		if(article == null) { 
+//			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
+//		}
 		
 		// 현재 수정이 가능한가 체크
-		ResultData actorCanModifyRd = articleService.actorCanModify(loginedMemberId, article); 
+		ResultData actorCanModifyRd = articleService.actorCanMD(loginedMemberId, article); 
 		
 		if(actorCanModifyRd.isFail()) {  // 실패시에 
 			return actorCanModifyRd;
@@ -116,9 +117,15 @@ public class UsrArticleController {
 
 
 	@RequestMapping("/usr/article/detail")
-	public String detail(Model model, int id) { // 상세보기
+	public String detail(HttpSession httpSession, Model model, int id) { // 상세보기
 		
-		Article article = articleService.getForPrintArticle(id);
+		int loginedMemberId = 0; // 가져와서 쓰려면 형변환
+		
+		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
+			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		}
+		
+		Article article = articleService.getForPrintArticle(loginedMemberId, id);
 		
 		model.addAttribute("article", article);
 		

@@ -1,7 +1,5 @@
 package com.khd.exam.demo.vo;
 
-import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +16,7 @@ public class Article{
 	private String body;
 	
 	private String writerName;
+	private boolean actorCanChangeData;
 	
 }
 
