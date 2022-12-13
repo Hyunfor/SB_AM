@@ -2,7 +2,7 @@ package com.khd.exam.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +14,7 @@ import com.khd.exam.demo.service.ArticleService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
 import com.khd.exam.demo.vo.ResultData;
+import com.khd.exam.demo.vo.Rq;
 
 
 @Controller
@@ -29,13 +30,13 @@ public class UsrArticleController {
 // 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody 
-	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
+	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
-		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
-			return ResultData.from("F-A",  "로그인 후 이용해주세요.");
+		Rq rq = new Rq(req);
+		
+		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
+			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
-		
-		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
 			return ResultData.from("F-1", "제목을 입력해주세요.");
@@ -44,7 +45,7 @@ public class UsrArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(loginedMemberId, title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 			
 		Article article = articleService.getArticle((int)writeArticleRd.getData1()); // Data는 Object라 int로 형변환
 
@@ -63,13 +64,13 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody 
-	public String doDelete(HttpSession httpSession, int id) {
+	public String doDelete(HttpServletRequest req, int id) {
 		
-		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
-			return Utility.jsHistoryBack("로그인 후 이용해주세요.");
+		Rq rq = new Rq(req);
+		
+		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
+			return  Utility.jsHistoryBack("로그인 후 이용해주세요.");
 		}
-		
-		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		Article article = articleService.getArticle(id);
 
@@ -77,7 +78,7 @@ public class UsrArticleController {
 			return Utility.jsHistoryBack(Utility.f("%번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		if(loginedMemberId != article.getMemberId()) { // 권한체크
+		if(rq.getLoginedMemberId() != article.getMemberId()) { // 권한체크
 			return Utility.jsHistoryBack("해당 게시물에 대한 권한이 없습니다.");
 		}
 		
@@ -89,14 +90,14 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
-	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) { 
+	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) { 
 		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
 		
-		if(httpSession.getAttribute("loginedMemberId") == null) { // 로그인 체크
+		Rq rq = new Rq(req);
+		
+		if(rq.getLoginedMemberId() == 0) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
-		
-		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
 		
 		Article article = articleService.getArticle(id);
 		
@@ -106,7 +107,7 @@ public class UsrArticleController {
 //		}
 		
 		// 현재 수정이 가능한가 체크
-		ResultData actorCanModifyRd = articleService.actorCanMD(loginedMemberId, article); 
+		ResultData actorCanModifyRd = articleService.actorCanMD(rq.getLoginedMemberId(), article); 
 		
 		if(actorCanModifyRd.isFail()) {  // 실패시에 
 			return actorCanModifyRd;
@@ -117,15 +118,11 @@ public class UsrArticleController {
 
 
 	@RequestMapping("/usr/article/detail")
-	public String detail(HttpSession httpSession, Model model, int id) { // 상세보기
+	public String showDetail(HttpServletRequest req, Model model, int id) { // 상세보기
 		
-		int loginedMemberId = 0; // 가져와서 쓰려면 형변환
+		Rq rq = new Rq(req);
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 로그인 체크
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-		}
-		
-		Article article = articleService.getForPrintArticle(loginedMemberId, id);
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		
 		model.addAttribute("article", article);
 		

@@ -1,7 +1,5 @@
 package com.khd.exam.demo.util;
 
-import com.khd.exam.demo.vo.ResultData;
-
 public class Utility {
 
 	public static boolean empty(String obj) {
