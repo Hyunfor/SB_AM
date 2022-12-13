@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:set var="pageTitle" value="LIST"/>    
+<c:set var="pageTitle" value="Article Detail"/>    
 <%@ include file="../common/head.jsp" %>
 
 <section class="mt-8 text-xl">
@@ -27,7 +27,7 @@
 					</tr>
 					<tr>
 						<th>작성자</th>
-						<td>${article.memberId}</td>
+						<td>${article.writerName}</td>
 					</tr>
 					<tr>
 						<th>제목</th>
@@ -40,9 +40,15 @@
 				</tbody>
 			</table>
 		</div>
+		
 		<div class="btns">
-			<button type="button" onclick="history.back();">뒤로가기</button>
+			<button class="btn-text-link"  type="button" onclick="history.back();">뒤로가기</button>
+			<a class="btn-text-link" href="modify?id=${article.id}">수정</a>
+			<a class="btn-text-link"  onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="deDelete?id=${article.id}">삭제</a>
 		</div>
+		
 	</div>
+	
 </section>
+
 <%@ include file="../common/foot.jsp"%>
