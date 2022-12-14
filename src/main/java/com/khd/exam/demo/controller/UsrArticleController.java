@@ -32,12 +32,7 @@ public class UsrArticleController {
 	@ResponseBody 					// rq에서 꺼내서 출력
 	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
-//		Rq rq = new Rq(req);
 		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
-		
-		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
-		}
 		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
 			return ResultData.from("F-1", "제목을 입력해주세요.");
@@ -67,7 +62,7 @@ public class UsrArticleController {
 	@ResponseBody 
 	public String doDelete(HttpServletRequest req, int id) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
 			return  Utility.jsHistoryBack("로그인 후 이용해주세요.");
@@ -93,7 +88,7 @@ public class UsrArticleController {
 	@ResponseBody 
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) { 
 	
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		if(rq.getLoginedMemberId() == 0) { // 로그인 체크
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
@@ -120,7 +115,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) { // 상세보기
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		

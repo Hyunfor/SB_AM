@@ -65,7 +65,7 @@ public class UsMemberController {
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
 		
 		if(httpSession.getAttribute("loginedMemberId") != null) { // 중복 로그인 방지
-			return ResultData.from("F-1", "이미 로그인 되어있습니다.");
+			return ResultData.from("F-1", "이미 로그인 되어있습니다");
 		}
 		
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
@@ -83,8 +83,8 @@ public class UsMemberController {
 		if(member.getLoginPw().equals(loginPw) == false) { // 비밀번호가 일치하지 않을 시
 			return ResultData.from("F-5", "비밀번호가 일치하지 않습니다.");
 		}
+		
 
-		// 세션에 회원번호 저장 . article의 번호와 일치하는 회원번호를 가져오기 위함
 		httpSession.setAttribute("loginedMemberId", member.getId()); 
 
 		return ResultData.from("S-1", Utility.f("%s님 환영합니다.", member.getNickname()));

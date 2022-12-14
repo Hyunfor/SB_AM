@@ -9,17 +9,20 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.khd.exam.demo.vo.Rq;
 
 @Component 
-public class BeforeActionInterceptor implements HandlerInterceptor{ // 컨트롤러 보다 먼저 실행 됨.
-
+public class NeedLoginInterceptor implements HandlerInterceptor {
 	@Override				// 공유 자원을 쓸 수 있게 해줌
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
 			throws Exception { 
 		
-		Rq rq = new Rq(req, resp);
-		req.setAttribute("rq", rq); // 요청된 Rq를 인터셉터와 컨트롤러도 같이 사용함.(공유 자원느낌)
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
+			
+			rq.jsPrintHistoryBack("로그인 후 이용해주세요.");
+			return false;
+		}
+		
 		
 		return HandlerInterceptor.super.preHandle(req, resp, handler);
 	}
-	
-	
 }
