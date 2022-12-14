@@ -9,7 +9,7 @@ public class Rq {
 	@Getter
 	private int loginedMemberId;
 
-	public Rq(HttpServletRequest req) {
+	public Rq(HttpServletRequest req) { // loginedMemberId 검증
 		
 		HttpSession httpSession = req.getSession();
 		

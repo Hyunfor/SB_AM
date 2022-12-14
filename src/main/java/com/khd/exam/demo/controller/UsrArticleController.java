@@ -29,10 +29,11 @@ public class UsrArticleController {
 	
 // 액션 메서드
 	@RequestMapping("/usr/article/doAdd")
-	@ResponseBody 
+	@ResponseBody 					// rq에서 꺼내서 출력
 	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
-		Rq rq = new Rq(req);
+//		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
@@ -91,8 +92,7 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody 
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) { 
-		// Object는 모든 class의 최상위라 모든 데이터가 가능하지만 원활한 관리를 위해선 제약이 많은게 좋음
-		
+	
 		Rq rq = new Rq(req);
 		
 		if(rq.getLoginedMemberId() == 0) { // 로그인 체크
