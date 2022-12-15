@@ -60,6 +60,11 @@ public class UsMemberController {
 		
 	}
 	
+	@RequestMapping("/usr/member/login")
+	public String showLogin() { // 로그인 요청시 로그인 페이지 보여주는 역할		
+		return "usr/member/login";
+	}
+	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody 
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
@@ -83,7 +88,6 @@ public class UsMemberController {
 		if(member.getLoginPw().equals(loginPw) == false) { // 비밀번호가 일치하지 않을 시
 			return ResultData.from("F-5", "비밀번호가 일치하지 않습니다.");
 		}
-		
 
 		httpSession.setAttribute("loginedMemberId", member.getId()); 
 

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.khd.exam.demo.vo.Rq;
 
 @Component 
-public class NeedLoginInterceptor implements HandlerInterceptor {
+public class NeedLoginInterceptor implements HandlerInterceptor { // 인터셉터에서 로그인 여부 체크
 	@Override				// 공유 자원을 쓸 수 있게 해줌
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
 			throws Exception { 
