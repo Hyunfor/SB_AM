@@ -63,11 +63,7 @@ public class UsrArticleController {
 	public String doDelete(HttpServletRequest req, int id) {
 		
 		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
-		
-		if(rq.getLoginedMemberId() == 0) { // rq 객체에 값이 씌워지지 못 한 경우 . 0 일경우 세션에 아무것도 없다.
-			return  Utility.jsHistoryBack("로그인 후 이용해주세요.");
-		}
-		
+
 		Article article = articleService.getArticle(id);
 
 		if (article == null) {
@@ -83,16 +79,30 @@ public class UsrArticleController {
 		return Utility.jsReplace(Utility.f("게시물을 삭제했습니다.", id), "list");
 	} 
 	
+	@RequestMapping("/usr/article/modify") // 수정 요청시 수정 페이지를 보이게 jsp에 요청하는 역할		
+	public String showModify(HttpServletRequest req, Model model, int id) { 
+		
+		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
+		
+		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(),id);
+		
+		// 현재 수정이 가능한가 체크
+		ResultData actorCanMDRd = articleService.actorCanMD(rq.getLoginedMemberId(), article); 
+		
+		if(actorCanMDRd.isFail()) {  // 실패시에 
+			return rq.jsReturnOnView(actorCanMDRd.getMsg(), true);
+		}
+		
+		model.addAttribute("article", article);
+		
+		return "/usr/article/modify";
+	}
 
-	@RequestMapping("/usr/article/doModify")
+	@RequestMapping("/usr/article/doModify") // 실질적 수정역할
 	@ResponseBody 
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) { 
 	
 		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
-		
-		if(rq.getLoginedMemberId() == 0) { // 로그인 체크
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
-		}
 		
 		Article article = articleService.getArticle(id);
 		
