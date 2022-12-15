@@ -1,5 +1,6 @@
 package com.khd.exam.demo.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.khd.exam.demo.service.MemberService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Member;
 import com.khd.exam.demo.vo.ResultData;
+import com.khd.exam.demo.vo.Rq;
 
 @Controller
 public class UsMemberController {
@@ -67,9 +69,11 @@ public class UsMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody // 응답하는 화면 보여주는 역할
-	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
 		
-		if(httpSession.getAttribute("loginedMemberId") != null) { // 중복 로그인 방지
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if(rq.getLoginedMemberId() != 0) { // 중복 로그인 방지
 			return Utility.jsHistoryBack("이미 로그인 되어있습니다");
 		}
 		
@@ -89,7 +93,7 @@ public class UsMemberController {
 			return Utility.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 
-		httpSession.setAttribute("loginedMemberId", member.getId()); 
+		rq.login(member);
 
 		return Utility.jsReplace(Utility.f("%s님 환영합니다.", member.getNickname()),"/"); // 로그인 시 main으로
 		
@@ -97,15 +101,17 @@ public class UsMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody 
-	public ResultData doLogout(HttpSession httpSession) {
+	public String doLogout(HttpServletRequest req) {
 		
-		if(httpSession.getAttribute("loginedMemberId") == null) { // 중복 로그인 방지
-			return ResultData.from("F-1", "로그아웃 상태입니다.");
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if(rq.getLoginedMemberId() == 0) { // 중복 로그인 방지
+			return Utility.jsHistoryBack("로그아웃 상태입니다.");
 		}
-		
-		httpSession.removeAttribute("loginedMemberId"); // 세션에 저장된 회원번호를 삭제
 
-		return ResultData.from("S-1", "로그아웃 되었습니다.");
+		rq.logout();
+		
+		return Utility.jsReplace("로그아웃 되었습니다.", "/");
 		
 	}
 	
