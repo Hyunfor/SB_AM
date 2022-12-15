@@ -119,7 +119,7 @@ public class UsrArticleController {
 		
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		
-		model.addAttribute("article", article);
+		model.addAttribute("article", article); // model 객체에서 article을 넘기기
 		
 		return "usr/article/detail";
 	}
