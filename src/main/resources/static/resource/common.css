@@ -33,3 +33,7 @@ html > body {
 	color:red;
 	text-decoration: underline;
 }
+
+body {
+	min-width:800px;
+}
