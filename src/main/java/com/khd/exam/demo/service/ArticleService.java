@@ -28,12 +28,8 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
-	public ResultData<Article> modifyArticle(int id, String title, String body) {
+	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
-		
-		Article article = getArticle(id);
-		
-		return ResultData.from("S-1", Utility.f("%d번 게시물이 수정되었습니다.", id), "article", article);
 	}
 
 	public List<Article> getArticles() {

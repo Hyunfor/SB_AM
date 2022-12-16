@@ -66,12 +66,10 @@ public class UsrArticleController {
 
 		Article article = articleService.getArticle(id);
 
-		if (article == null) {
-			return Utility.jsHistoryBack(Utility.f("%번 게시물은 존재하지 않습니다.", id));
-		}
+		ResultData actorCanMDRd = articleService.actorCanMD(rq.getLoginedMemberId(), article); 
 		
-		if(rq.getLoginedMemberId() != article.getMemberId()) { // 권한체크
-			return Utility.jsHistoryBack("해당 게시물에 대한 권한이 없습니다.");
+		if(actorCanMDRd.isFail()) {  // 실패시에 
+			return Utility.jsHistoryBack(actorCanMDRd.getMsg());
 		}
 		
 		articleService.deleteArticle(id);
@@ -100,25 +98,22 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify") // 실질적 수정역할
 	@ResponseBody 
-	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) { 
+	public String doModify(HttpServletRequest req, int id, String title, String body) { 
 	
 		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		Article article = articleService.getArticle(id);
 		
-		// actorCanDelete , actorCanModify 같은 기능을 사용하기에 하나로 합친 기능에 포함되어있어서 지워도 됨.
-//		if(article == null) { 
-//			return ResultData.from("F-1", Utility.f("%번 게시물은 존재하지 않습니다.", id));
-//		}
-		
 		// 현재 수정이 가능한가 체크
-		ResultData actorCanModifyRd = articleService.actorCanMD(rq.getLoginedMemberId(), article); 
+		ResultData actorCanMDRd = articleService.actorCanMD(rq.getLoginedMemberId(), article); 
 		
-		if(actorCanModifyRd.isFail()) {  // 실패시에 
-			return actorCanModifyRd;
+		if(actorCanMDRd.isFail()) {  // 실패시에 
+			return Utility.jsHistoryBack(actorCanMDRd.getMsg());
 		}
 		
-		return articleService.modifyArticle(id, title, body);
+		articleService.modifyArticle(id, title, body);
+		
+		return Utility.jsReplace(Utility.f("게시물을 수정했습니다.", id), Utility.f("detail?id=%d", id));
 	}
 
 
