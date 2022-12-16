@@ -32,7 +32,7 @@ public class ArticleService {
 		articleRepository.modifyArticle(id, title, body);
 	}
 
-	public List<Article> getArticles() {
+	public List<Article> getArticles(int boardId) {
 		return articleRepository.getArticles();
 	}
 

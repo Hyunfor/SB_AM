@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khd.exam.demo.service.ArticleService;
+import com.khd.exam.demo.service.BoardService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
+import com.khd.exam.demo.vo.Board;
 import com.khd.exam.demo.vo.ResultData;
 import com.khd.exam.demo.vo.Rq;
 
@@ -21,10 +23,12 @@ import com.khd.exam.demo.vo.Rq;
 public class UsrArticleController {
 	
 	private ArticleService articleService;
+	private BoardService boardService;
 	// 의존성 주입 - 객체만들지 않아도 됨
 	@Autowired 
-	public UsrArticleController(ArticleService articleService){
+	public UsrArticleController(ArticleService articleService, BoardService boardService){
 		this.articleService = articleService;
+		this.boardService = boardService;
 	}
 	
 // 액션 메서드
@@ -54,10 +58,13 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
+	public String showList(Model model, int boardId) {
 		
-		List<Article> articles = articleService.getArticles();
+		Board board = boardService.getBoardById(boardId);
 		
+		List<Article> articles = articleService.getArticles(boardId);
+		
+		model.addAttribute("board", board); // model에게 articles 속성 추가
 		model.addAttribute("articles", articles); // model에게 articles 속성 추가
 		
 		return "usr/article/list";
