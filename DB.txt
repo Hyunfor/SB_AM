@@ -102,6 +102,45 @@ UPDATE article
 SET memberId = 3
 WHERE title = "아이폰14";
 
+# board 테이블 생성
+CREATE TABLE board(
+	id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	regDate DATETIME NOT NULL,
+	updateDate DATETIME NOT NULL,
+	`code` VARCHAR(20) NOT NULL UNIQUE COMMENT 'notice(공지사항), QnA(질문게시판), free1(자유게시판1), ...',
+	`name` VARCHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
+	delStatus TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제여부 (0 = 삭제 전, 1 = 삭제 후)',
+	delDate DATETIME COMMENT '삭제 날짜'
+);
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'notice',
+`name` = '공지사항';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+`code` = 'free1',
+`name` = '자유';
+
+# article 테이블에 boardId컬럼 추가
+ALTER TABLE article ADD COLUMN boardId INT UNSIGNED NOT NULL AFTER `memberId`;
+
+UPDATE article
+SET boardId = 1
+WHERE id IN (1,2);
+
+UPDATE article
+SET boardId = 2
+WHERE id IN (3);
+
+SELECT * FROM article;
+SELECT * FROM `member`;
+SELECT * FROM board;
+
+SELECT LAST_INSERT_ID();
 
 http://localhost:8084/usr/article/doAdd?title=1235&body=2345
 
