@@ -28,24 +28,29 @@ public class UsrArticleController {
 	}
 	
 // 액션 메서드
-	@RequestMapping("/usr/article/doAdd")
+	@RequestMapping("/usr/article/write")
+	public String showWrite() {
+		return "usr/article/write";
+	}
+	
+	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody 					// rq에서 꺼내서 출력
-	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
+	public String doWrite(HttpServletRequest req, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
 		Rq rq = (Rq) req.getAttribute("rq"); // Rq형식으로 형변환 후 꺼내야함
 		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
-			return ResultData.from("F-1", "제목을 입력해주세요.");
+			return Utility.jsHistoryBack("제목을 입력해주세요.");
 		}
 		if(Utility.empty(body)) { 
-			return ResultData.from("F-2", "내용을 입력해주세요.");
+			return Utility.jsHistoryBack("내용을 입력해주세요.");
 		}
 		
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 			
-		Article article = articleService.getArticle((int)writeArticleRd.getData1()); // Data는 Object라 int로 형변환
-
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), "article", article);
+		int id = (int) writeArticleRd.getData1();
+		
+		return Utility.jsReplace(Utility.f("%d번 글이 생성되었습니다", id), Utility.f("detail?id=%d", id));
 	}
 	
 	@RequestMapping("/usr/article/list")
