@@ -1,8 +1,5 @@
 package com.khd.exam.demo.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +15,13 @@ import com.khd.exam.demo.vo.Rq;
 public class UsMemberController {
 	
 	private MemberService memberService;
+	private Rq rq;
+
 	// 의존성 주입 - 객체만들지 않아도 됨
 	@Autowired 
-	public UsMemberController(MemberService memberService){
+	public UsMemberController(MemberService memberService, Rq rq){
 		this.memberService = memberService;
+		this.rq = rq;
 	}
 	
 // 액션 메서드
@@ -69,9 +69,7 @@ public class UsMemberController {
 	
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody // 응답하는 화면 보여주는 역할
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogin(String loginId, String loginPw) {
 		
 		if(rq.getLoginedMemberId() != 0) { // 중복 로그인 방지
 			return Utility.jsHistoryBack("이미 로그인 되어있습니다");
@@ -101,9 +99,7 @@ public class UsMemberController {
 	
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody 
-	public String doLogout(HttpServletRequest req) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogout() {
 		
 		if(rq.getLoginedMemberId() == 0) { // 중복 로그인 방지
 			return Utility.jsHistoryBack("로그아웃 상태입니다.");
