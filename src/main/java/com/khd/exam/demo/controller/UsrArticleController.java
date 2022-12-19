@@ -39,7 +39,7 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody 					// rq에서 꺼내서 출력
-	public String doWrite(String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
+	public String doWrite(int boardId, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
 			return Utility.jsHistoryBack("제목을 입력해주세요.");
@@ -48,7 +48,7 @@ public class UsrArticleController {
 			return Utility.jsHistoryBack("내용을 입력해주세요.");
 		}
 		
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 			
 		int id = (int) writeArticleRd.getData1();
 		

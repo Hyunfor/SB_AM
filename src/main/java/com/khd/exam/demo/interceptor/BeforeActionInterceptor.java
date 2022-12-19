@@ -19,7 +19,6 @@ public class BeforeActionInterceptor implements HandlerInterceptor{ // 컨트롤
 	this.rq = rq;
 	}
 
-
 	@Override				// 공유 자원을 쓸 수 있게 해줌
 	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
 			throws Exception { 
