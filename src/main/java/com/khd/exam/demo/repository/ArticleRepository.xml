@@ -18,6 +18,15 @@
 			WHERE id = #{id}
 	</select>
 	
+	<select id="getArticlesCount" resultType="int">
+		SELECT COUNT(*) 
+			FROM article 
+			WHERE 1 = 1
+			<if test="boardId != 0">
+				AND boardId = #{boardId}
+			</if>
+	</select>
+	
 	<select id="getForPrintArticle" resultType="Article">
 		SELECT A.*, M.nickname AS writerName 
 			FROM article AS A

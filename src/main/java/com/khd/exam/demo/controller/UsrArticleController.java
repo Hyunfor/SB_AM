@@ -58,14 +58,23 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(HttpServletRequest req, Model model, int boardId) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		Board board = boardService.getBoardById(boardId);
 		
+		if(board == null) { // 게시판이 존재하지 않을 경우
+			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
+		}
+		
+		int articlesCount = articleService.getArticlesCount(boardId);
+		
 		List<Article> articles = articleService.getArticles(boardId);
 		
-		model.addAttribute("board", board); // model에게 articles 속성 추가
+		model.addAttribute("board", board); 
 		model.addAttribute("articles", articles); // model에게 articles 속성 추가
+		model.addAttribute("articlesCount", articlesCount);
 		
 		return "usr/article/list";
 	}

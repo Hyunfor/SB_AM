@@ -23,5 +23,7 @@ public interface ArticleRepository { // class는 사용 불가능 100% 추상메
 
 	public Article getForPrintArticle(int id);
 
+	public int getArticlesCount(int boardId);
+
 }
 
