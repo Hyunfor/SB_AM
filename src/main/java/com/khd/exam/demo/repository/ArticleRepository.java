@@ -13,7 +13,7 @@ public interface ArticleRepository { // class는 사용 불가능 100% 추상메
 
 	public Article getArticle(int id);
 	
-	public List<Article> getArticles();
+	public List<Article> getArticles(int boardId);
 
 	public void deleteArticle(int id);
 
