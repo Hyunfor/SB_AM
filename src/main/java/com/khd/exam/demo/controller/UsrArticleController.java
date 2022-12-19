@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khd.exam.demo.service.ArticleService;
@@ -41,6 +42,10 @@ public class UsrArticleController {
 	@ResponseBody 					// rq에서 꺼내서 출력
 	public String doWrite(int boardId, String title, String body) { // 리턴 타입을 Article로 정하면 DT에 꽂혀서 출력
 		
+		if(boardId != 1 && boardId !=2 ) { // 게시판 번호 검증
+			return Utility.jsHistoryBack("존재하지 않는 게시판입니다.");
+		}
+		
 		if(Utility.empty(title)) { // 유효성 검사(공백)
 			return Utility.jsHistoryBack("제목을 입력해주세요.");
 		}
@@ -56,7 +61,12 @@ public class UsrArticleController {
 	}
 	
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int boardId) {
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) {
+		
+		if(page <= 0) { // 페이징이 0보다 작을 경우
+			return rq.jsReturnOnView("페이지번호가 올바르지 않습니다.", true);
+		}
 		
 		Board board = boardService.getBoardById(boardId);
 		
@@ -66,11 +76,19 @@ public class UsrArticleController {
 		
 		int articlesCount = articleService.getArticlesCount(boardId);
 		
-		List<Article> articles = articleService.getArticles(boardId);
+		int itemsInAPage = 10;
+		
+//		ceil은 double 타입이므로 int로 형변환하고, 둘중 하나를 double로 형변환하면 됨
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
+
+		List<Article> articles = articleService.getArticles(boardId, itemsInAPage, page);
 		
 		model.addAttribute("board", board); 
 		model.addAttribute("articles", articles); // model에게 articles 속성 추가
 		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("boardId", boardId);
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount", pagesCount);
 		
 		return "usr/article/list";
 	}

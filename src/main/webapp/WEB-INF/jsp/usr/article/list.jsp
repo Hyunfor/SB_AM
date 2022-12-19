@@ -38,6 +38,13 @@
 			</table>
 			
 		</div>
+		<div class="page-menu mt-2 flex justify-center">
+			<div class="btn-group">
+				<c:forEach begin="1" end="${pagesCount }" var="i">
+					<a class="btn btn-sm ${page == i ? 'btn-active' : ''}" href="?boardId=${boardId }&page=${i }">${i }</a>
+				</c:forEach>
+			</div>
+		</div>
 		
 	</div>
 	
