@@ -40,9 +40,36 @@
 		</div>
 		<div class="page-menu mt-2 flex justify-center">
 			<div class="btn-group">
-				<c:forEach begin="1" end="${pagesCount }" var="i">
+				<!-- «  -->
+				<!-- »  -->
+							<!-- 지정한 만큼 페이징 수 보이기  -->
+				<c:set var="pageMenuLen" value="10" />
+				<c:set var="startPage" value="${page - pageMenuLen >= 1 ? page - pageMenuLen : 1}" />
+				<c:set var="endPage" value="${page + pageMenuLen <= pagesCount ? page + pageMenuLen : pagesCount}" />
+				
+				<!-- 페이지 처음과 끝으로 이동 -->
+				<c:if test="${page == 1 }">
+					<a class="btn btn-sm btn-disabled">«</a>
+					<a class="btn btn-sm btn-disabled">&lt;</a>
+				</c:if>
+				<c:if test="${page > 1 }">
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=1">«</a>
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${page - 1 }">&lt;</a>
+				</c:if>
+				
+				<c:forEach begin="${startPage }" end="${endPage }" var="i">  <!-- 페이징 카운트 -->
 					<a class="btn btn-sm ${page == i ? 'btn-active' : ''}" href="?boardId=${boardId }&page=${i }">${i }</a>
 				</c:forEach>
+				
+				<c:if test="${page < pagesCount }">
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${page + 1 }">&gt;</a>
+					<a class="btn btn-sm" href="?boardId=${boardId }&page=${pagesCount }">»</a>
+				</c:if>
+				<c:if test="${page == pagesCount }">
+					<a class="btn btn-sm btn-disabled">&gt;</a>
+					<a class="btn btn-sm btn-disabled">»</a>
+				</c:if>
+				
 			</div>
 		</div>
 		
