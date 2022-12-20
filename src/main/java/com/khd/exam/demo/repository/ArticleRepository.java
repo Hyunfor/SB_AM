@@ -13,7 +13,7 @@ public interface ArticleRepository { // class는 사용 불가능 100% 추상메
 
 	public Article getArticle(int id);
 	
-	public List<Article> getArticles(int boardId, int limitStart, int itemsInAPage);
+	public List<Article> getArticles(int boardId, String searchKeywordTypeCode, String searchKeyword, int limitStart, int itemsInAPage);
 
 	public void deleteArticle(int id);
 
@@ -23,7 +23,7 @@ public interface ArticleRepository { // class는 사용 불가능 100% 추상메
 
 	public Article getForPrintArticle(int id);
 
-	public int getArticlesCount(int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 
 }
 

@@ -62,7 +62,9 @@ public class UsrArticleController {
 	
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
-			@RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "1") int page, 
+			@RequestParam(defaultValue = "title") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword) {
 		
 		if(page <= 0) { // 페이징이 0보다 작을 경우
 			return rq.jsReturnOnView("페이지번호가 올바르지 않습니다.", true);
@@ -74,14 +76,14 @@ public class UsrArticleController {
 			return rq.jsReturnOnView("존재하지 않는 게시판입니다.", true);
 		}
 		
-		int articlesCount = articleService.getArticlesCount(boardId);
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 		
 		int itemsInAPage = 10;
 		
 //		ceil은 double 타입이므로 int로 형변환하고, 둘중 하나를 double로 형변환하면 됨
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsInAPage);
 
-		List<Article> articles = articleService.getArticles(boardId, itemsInAPage, page);
+		List<Article> articles = articleService.getArticles(boardId,  searchKeywordTypeCode, searchKeyword, itemsInAPage, page);
 		
 		model.addAttribute("board", board); 
 		model.addAttribute("articles", articles); // model에게 articles 속성 추가
@@ -89,6 +91,8 @@ public class UsrArticleController {
 		model.addAttribute("boardId", boardId);
 		model.addAttribute("page", page);
 		model.addAttribute("pagesCount", pagesCount);
+		model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
+		model.addAttribute("searchKeyword", searchKeyword);
 		
 		return "usr/article/list";
 	}
