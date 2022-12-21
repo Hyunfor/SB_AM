@@ -112,7 +112,7 @@
 	
 	<!-- 조회수를 가져만 오기 -->
 	<select id="getArticleViewCount" resultType="int">
-		UPDATE viewCount 
+		SELECT viewCount 
 			FROM article
 			WHERE id = #{id}
 	</select>

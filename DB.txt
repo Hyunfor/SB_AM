@@ -110,7 +110,7 @@ updateDate = NOW(),
 # article 테이블에 boardId컬럼 추가
 ALTER TABLE article ADD COLUMN boardId INT UNSIGNED NOT NULL AFTER `memberId`;
 
-# article 테이블에 boardId컬럼 추가
+# article 테이블에 viewCount컬럼 추가
 ALTER TABLE article ADD COLUMN viewCount INT UNSIGNED NOT NULL DEFAULT 0;
 
 UPDATE article

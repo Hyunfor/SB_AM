@@ -13,6 +13,10 @@ public class ResultData<DT> { // <~~> == 제너릭
 	private String data1Name;
 	@Getter
 	private DT data1; // <DT> ~ 데이터 타입으로 쓰겠다고 지정. 내부가 아닌 외부에서 data1을 정함
+	@Getter
+	private String data2Name;
+	@Getter
+	private Object data2;
 	
 	// 오버로딩 // from 리턴타입 메서드로 만든것 뿐
 	public static <DT> ResultData <DT> from(String resultCode, String msg) {
@@ -36,6 +40,11 @@ public class ResultData<DT> { // <~~> == 제너릭
 	
 	public boolean isFail() { // 실패시 false
 		return isSuccess() == false;
+	}
+	public void setData2(String data2Name, Object data2) {
+		this.data2Name = data2Name;
+		this.data2 = data2;
+		
 	}
 	
 }

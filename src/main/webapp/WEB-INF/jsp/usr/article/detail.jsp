@@ -4,6 +4,30 @@
 <c:set var="pageTitle" value="Article Detail"/>    
 <%@ include file="../common/head.jsp" %>
 
+<script>
+
+ 	const params = {};
+	params.id = parseInt('${param.id}')
+
+	function ArticleDetail__increaseViewCount(){
+		$.get('doIncreaseViewCountRd', {
+			id : params.id,
+			ajaxMode: 'Y'
+		}, function(data){
+			$('.article-detail__view-count').empty().html(data.data1);
+		}, 'json');
+	}
+	$(function(){
+		// 실전코드
+		/* ArticleDetail__increaseViewCount(); */
+		
+		// 연습코드 - 시간이 지나면 조회수 증가
+		setTimeout(ArticleDetail__increaseViewCount(), 2000);
+	}) 
+	
+	
+</script>
+
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<div class="table-box-type-1">
@@ -27,7 +51,7 @@
 					</tr>
 					<tr>
 						<th>조회 수</th>
-						<td>${article.viewCount}</td>
+						<td><span class="badge article-detail__view-count">${article.viewCount}</span></td>
 					</tr>
 					<tr>
 						<th>작성자</th>

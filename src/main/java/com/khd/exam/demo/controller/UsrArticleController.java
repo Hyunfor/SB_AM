@@ -160,9 +160,9 @@ public class UsrArticleController {
 		return "usr/article/detail";
 	}
 	
-	@RequestMapping("/usr/article/doIncreaseViewCouuntRd")
+	@RequestMapping("/usr/article/doIncreaseViewCountRd")
 	@ResponseBody
-	public ResultData<Integer> doIncreaseViewCouuntRd(int id) { // 조회수
+	public ResultData<Integer> doIncreaseViewCountRd(int id) { // 조회수
 		
 		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCount(id);
 		
@@ -170,7 +170,11 @@ public class UsrArticleController {
 			return increaseViewCountRd;
 		}
 		
-		return ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "viewCount", articleService.getArticleViewCount(id) );
+		ResultData<Integer> rd = ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "viewCount", articleService.getArticleViewCount(id));
+		
+		rd.setData2("id", id);
+		
+		return rd;
 	}
 
 
