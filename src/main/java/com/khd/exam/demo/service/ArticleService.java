@@ -117,6 +117,10 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", "조회 수 증가", "affectedRowsCount", affectedRowsCount);
 	}
+	
+	public int getArticleViewCount(int id) {
+		return articleRepository.getArticleViewCount(id);
+	}
 
 
 }

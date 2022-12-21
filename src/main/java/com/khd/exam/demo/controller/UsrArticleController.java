@@ -152,18 +152,26 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) { // 상세보기
-		
-		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCount(id);
-		
-		if(increaseViewCountRd.isFail()) { // 실패한 경우
-			return rq.jsReturnOnView(increaseViewCountRd.getMsg(), true);
-		}
-		
+
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		
 		model.addAttribute("article", article); // model 객체에서 article을 넘기기
 		
 		return "usr/article/detail";
 	}
+	
+	@RequestMapping("/usr/article/doIncreaseViewCouuntRd")
+	@ResponseBody
+	public ResultData<Integer> doIncreaseViewCouuntRd(int id) { // 조회수
+		
+		ResultData<Integer> increaseViewCountRd = articleService.increaseViewCount(id);
+		
+		if(increaseViewCountRd.isFail()) { // 실패한 경우
+			return increaseViewCountRd;
+		}
+		
+		return ResultData.from(increaseViewCountRd.getResultCode(), increaseViewCountRd.getMsg(), "viewCount", articleService.getArticleViewCount(id) );
+	}
+
 
 }
