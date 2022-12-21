@@ -104,4 +104,10 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 
+	<update id="increaseViewCount">
+		UPDATE article 
+			SET viewCount = viewCount + 1
+			WHERE id = #{id}
+	</update>
+
 </mapper>

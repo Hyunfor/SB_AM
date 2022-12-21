@@ -76,7 +76,7 @@
 				</c:if>
 				<c:if test="${page > 1 }">
 					<a class="btn btn-sm" href="${pageBaseUri }&page=1">«</a>
-					<a class="btn btn-sm" href="${pageBaseUri }&page=${page - 1 }">&lt;
+					<a class="btn btn-sm" href="${pageBaseUri }&page=${page - 1 }">&lt;</a>
 				</c:if>
 				
 				<c:forEach begin="${startPage }" end="${endPage }" var="i">  <!-- 페이징 카운트 -->

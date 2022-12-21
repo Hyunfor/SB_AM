@@ -108,6 +108,16 @@ public class ArticleService {
 		return articleRepository.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
 	}
 
+	public ResultData<Integer> increaseViewCount(int id) {
+		int affectedRowsCount =  articleRepository.increaseViewCount(id);
+		
+		if(affectedRowsCount == 0) { // 게시글이 없는 경우
+			return ResultData.from("F-1", "해당 게시물은 존재하지 않습니다.", "affectedRowsCount", affectedRowsCount);
+		}
+		
+		return ResultData.from("S-1", "조회 수 증가", "affectedRowsCount", affectedRowsCount);
+	}
+
 
 }
 
