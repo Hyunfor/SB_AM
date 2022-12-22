@@ -7,9 +7,21 @@
 <script>
 
  	const params = {};
-	params.id = parseInt('${param.id}')
-
-	function ArticleDetail__increaseViewCount(){
+ 	
+ 	// params.id - 게시글 번호
+	params.id = parseInt('${param.id}'); 
+	
+	function ArticleDetail__increaseViewCount() {
+		
+		// localStorage에 정보를 담아둘 수 있음. ex) 자동 로그인 기능
+		const localStorageKey = 'article__' + params.id + '__alreadyView';
+		
+		if(localStorage.getItem(localStorageKey)) {
+			return;
+		}
+		
+		localStorage.setItem(localStorageKey, true);
+		
 		$.get('doIncreaseViewCountRd', {
 			id : params.id,
 			ajaxMode: 'Y'
