@@ -34,6 +34,7 @@
 					<col />
 					<col width="120"/>
 					<col width="50"/>
+					<col width="50"/>
 				</colgroup>
 				
 				<thead>
@@ -43,6 +44,7 @@
 						<th>제목</th>
 						<th>작성자</th>
 						<th>조회수</th>
+						<th>추천</th>
 					</tr>
 				</thead>
 
@@ -54,11 +56,14 @@
 							<td><a class="hover:underline" href="../article/detail?id=${article.id}">${article.title}</a></td>
 							<td>${article.writerName}</td>
 							<td>${article.viewCount}</td>
+							<td>${article.sumReactionPoint}</td>
 						</tr>
 					</c:forEach>
 					
 				</tbody>
 				
+			</table>	
+			
 			</table>
 			
 		</div>
@@ -70,6 +75,7 @@
 		</div>
 		
 		<div class="page-menu mt-2 flex justify-center">
+		
 			<div class="btn-group">
 				<!-- «  -->
 				<!-- »  -->
