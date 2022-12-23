@@ -77,11 +77,23 @@
 						<th>내용</th>
 						<td>${article.body}</td>
 					</tr>
+					<tr>
+						<th>추천</th>
+						<td>
+							<c:if test="${rq.getLoginedMemberId() == 0 }"> <!-- 로그인 여부. 로그인 하기전-->
+								<span class="badge">${article.sumReactionPoint}</span>
+							</c:if>
+							<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부. 로그인 후에 좋아요, 싫어요 클릭 가능-->
+								<button class="btn btn-outline btn-success btn-xs">좋아요 👍 </button>
+								<span class="badge">${article.goodReactionPoint}</span>
+								<button class="btn btn-outline btn-error btn-xs">싫어요 👎 </button>
+								<span class="badge">${article.badReactionPoint}</span>
+							</c:if>
+						</td>
+					</tr>
 				</tbody>
 			</table>
-			
-			
-			
+				
 		</div>
 		
 		<div class="mt-2">
