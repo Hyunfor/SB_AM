@@ -183,6 +183,25 @@ relId = 2,
 `point` = 1;
 
 
+# dtail 추천 쿼리
+SELECT COUNT(*)
+	FROM article
+	WHERE 1 = 1
+	AND title LIKE '%11%'
+	
+SELECT A.*, M.nickname AS writerName, 
+				IFNULL(SUM(RP.point), 0) AS sumReactionPoint,
+				IFNULL(SUM(IF(RP.point > 0, RP.point, 0)), 0) AS goodReactionPoint,
+				IFNULL(SUM(IF(RP.point < 0, RP.point, 0)), 0) AS badReactionPoint
+			FROM article AS A
+			INNER JOIN `member` AS M
+			ON A.memberId = M.id
+			LEFT JOIN reactionPoint AS RP
+			ON RP.relTypeCode = 'article'
+			AND A.id = RP.relId
+			WHERE A.id = 2
+			GROUP BY A.id
+
 
 SELECT LAST_INSERT_ID();
 

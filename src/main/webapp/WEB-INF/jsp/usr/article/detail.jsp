@@ -29,9 +29,29 @@
 			$('.article-detail__view-count').empty().html(data.data1);
 		}, 'json');
 	}
+	
+	function ReactionPoint__getReactionPoint() {
+		
+		$.get('../reactionPoint/getReactionPoint', {
+			id : params.id,
+			ajaxMode : 'Y'
+		}, function(data){
+			if(data.data1.sumReactionPoint > 0){
+				let goodBtn = $('#goodBtn'); 
+				goodBtn.removeClass('btn-outline');
+// 				goodBtn.prop('href', '취소되는 요청으로')
+			}else if(data.data1.sumReactionPoint < 0){
+				let badBtn = $('#badBtn');
+				badBtn.removeClass('btn-outline');
+// 				badBtn.prop('href', '취소되는 요청으로')
+			}
+		}, 'json');
+	}
+	
 	$(function(){
 		// 실전코드
 		/* ArticleDetail__increaseViewCount(); */
+		ReactionPoint__getReactionPoint();
 		
 		// 연습코드 - 시간이 지나면 조회수 증가
 		setTimeout(ArticleDetail__increaseViewCount(), 2000);
@@ -84,9 +104,9 @@
 								<span class="badge">${article.sumReactionPoint}</span>
 							</c:if>
 							<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부. 로그인 후에 좋아요, 싫어요 클릭 가능-->
-								<button class="btn btn-outline btn-success btn-xs">좋아요 👍 </button>
+								<a id="goodBtn" class="btn btn-outline btn-success btn-xs" href="../reactionPoint/doGoodReactionPoint?id=${article.id }">좋아요 👍 </a>
 								<span class="badge">${article.goodReactionPoint}</span>
-								<button class="btn btn-outline btn-error btn-xs">싫어요 👎 </button>
+								<a id="badtn" class="btn btn-outline btn-error btn-xs" href="../reactionPoint/doBadReactionPoint?id=${article.id }">싫어요 👎 </a>
 								<span class="badge">${article.badReactionPoint}</span>
 							</c:if>
 						</td>
