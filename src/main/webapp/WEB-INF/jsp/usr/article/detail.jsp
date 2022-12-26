@@ -36,14 +36,14 @@
 			id : params.id,
 			ajaxMode : 'Y'
 		}, function(data){
-			if(data.data1.sumReactionPoint > 0){
+			if(data.data1.sumReactionPoint > 0){ // 리액션 버튼만 교체하는 역할
 				let goodBtn = $('#goodBtn'); 
 				goodBtn.removeClass('btn-outline');
-// 				goodBtn.prop('href', '취소되는 요청으로')
+				goodBtn.prop('href', '../reactionPoint/delReactionPoint?id=${article.id}&point=1')
 			}else if(data.data1.sumReactionPoint < 0){
 				let badBtn = $('#badBtn');
 				badBtn.removeClass('btn-outline');
-// 				badBtn.prop('href', '취소되는 요청으로')
+ 				badBtn.prop('href', '../reactionPoint/delReactionPoint?id=${article.id}&point=-1')
 			}
 		}, 'json');
 	}
@@ -101,13 +101,14 @@
 						<th>추천</th>
 						<td>
 							<c:if test="${rq.getLoginedMemberId() == 0 }"> <!-- 로그인 여부. 로그인 하기전-->
-								<span class="badge">${article.sumReactionPoint}</span>
+								<span class="badge">${article.sumReactionPoint}</span> <!-- 좋아요 -->
+								<span class="badge">${article.sumReactionPoint * -1}</span> <!-- 싫어요 -->
 							</c:if>
 							<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부. 로그인 후에 좋아요, 싫어요 클릭 가능-->
-								<a id="goodBtn" class="btn btn-outline btn-success btn-xs" href="../reactionPoint/doGoodReactionPoint?id=${article.id }">좋아요 👍 </a>
+								<a id="goodBtn" class="btn btn-outline btn-success btn-xs" href="../reactionPoint/doReactionPoint?id=${article.id }&relTypeCode=article&point=1">좋아요 👍 </a>
 								<span class="badge">${article.goodReactionPoint}</span>
-								<a id="badtn" class="btn btn-outline btn-error btn-xs" href="../reactionPoint/doBadReactionPoint?id=${article.id }">싫어요 👎 </a>
-								<span class="badge">${article.badReactionPoint}</span>
+								<a id="badtn" class="btn btn-outline btn-error btn-xs" href="../reactionPoint/doReactionPoint?id=${article.id }&relTypeCode=article&point=-1">싫어요 👎 </a>
+								<span class="badge">${article.badReactionPoint * -1}</span>
 							</c:if>
 						</td>
 					</tr>
