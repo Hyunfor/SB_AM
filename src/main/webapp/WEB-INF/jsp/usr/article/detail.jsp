@@ -101,8 +101,8 @@
 						<th>추천</th>
 						<td>
 							<c:if test="${rq.getLoginedMemberId() == 0 }"> <!-- 로그인 여부. 로그인 하기전-->
-								<span class="badge">${article.sumReactionPoint}</span> <!-- 좋아요 -->
-								<span class="badge">${article.sumReactionPoint * -1}</span> <!-- 싫어요 -->
+								<span class="badge badge-success gap-2">좋아요 : ${article.sumReactionPoint}</span> <!-- 좋아요 -->
+								<span class="badge badge-error gap-2">싫어요 : ${article.sumReactionPoint * -1}</span> <!-- 싫어요 -->
 							</c:if>
 							<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부. 로그인 후에 좋아요, 싫어요 클릭 가능-->
 								<a id="goodBtn" class="btn btn-outline btn-success btn-xs" href="../reactionPoint/doReactionPoint?id=${article.id }&relTypeCode=article&point=1">좋아요 👍 </a>
@@ -154,27 +154,29 @@
 	<div class="container mx-auto px-3 ">
 
 <!-- 	반복문 돌려서 list처리 여기서부터 -->	
-		<h2>댓글</h2>
-		
-		<div class="py-2 pl-16 border-bottom-line text-base">
-			<div class="font-semibold"><span>작성자</span></div>
-			<div><span>내용</span></div>
-			<div class="text-sm text-gray-400"><span>작성된 날짜</span></div>
-		</div>
-<!--  	여기까지-->
-		
-		<form action="../reply/doWrite" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
-			
-			<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
-				<div class="mb-2"><span>작성자</span></div>
-				<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" ></textarea>
-				<div class="flex justify-end">
-					<button class="btn btn-outline btn-success btn-sm">등록</button>
-				</div>
+		<h2>댓글<span class="text-base">(${replies.size() }개)</span></h2>
+		<c:forEach var="reply" items="${replies }">
+			<div class="py-2 pl-16 border-bottom-line text-base">
+				<div class="font-semibold"><span>${reply.writerName }</span></div>
+				<div><span>${reply.body }</span></div>
+				<div class="text-sm text-gray-400"><span>${reply.updateDate }</span></div>
 			</div>
+		</c:forEach>
+<!--  	여기까지-->
+		<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부-->
 		
-		</form>
-	
+			<form action="../reply/doWrite" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
+				
+				<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
+					<div class="mb-2"><span>작성자</span></div>
+					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" ></textarea>
+					<div class="flex justify-end">
+						<button class="btn btn-outline btn-success btn-sm">등록</button>
+					</div>
+				</div>
+			
+			</form>
+		</c:if>
 	</div>
 
 </section>

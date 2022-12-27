@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.khd.exam.demo.service.ArticleService;
 import com.khd.exam.demo.service.BoardService;
+import com.khd.exam.demo.service.ReplyService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Article;
 import com.khd.exam.demo.vo.Board;
+import com.khd.exam.demo.vo.Reply;
 import com.khd.exam.demo.vo.ResultData;
 import com.khd.exam.demo.vo.Rq;
 
@@ -22,13 +24,15 @@ public class UsrArticleController {
 	
 	private ArticleService articleService;
 	private BoardService boardService;
+	private ReplyService replyService;
 	private Rq rq;
 	
 	// 의존성 주입 - 객체만들지 않아도 됨
 	@Autowired 
-	public UsrArticleController(ArticleService articleService, BoardService boardService, Rq rq){
+	public UsrArticleController(ArticleService articleService, BoardService boardService, ReplyService replyService, Rq rq){
 		this.articleService = articleService;
 		this.boardService = boardService;
+		this.replyService = replyService;
 		this.rq = rq;
 	}
 	
@@ -155,7 +159,10 @@ public class UsrArticleController {
 
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 		
+		List<Reply> replies = replyService.getForPrintReplies("article", id);
+		
 		model.addAttribute("article", article); // model 객체에서 article을 넘기기
+		model.addAttribute("replies", replies);
 		
 		return "usr/article/detail";
 	}

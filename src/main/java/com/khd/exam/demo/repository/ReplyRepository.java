@@ -1,8 +1,12 @@
 package com.khd.exam.demo.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import com.khd.exam.demo.vo.Reply;
 
 @Mapper
 public interface ReplyRepository {
@@ -22,5 +26,15 @@ public interface ReplyRepository {
 			SELECT LAST_INSERT_ID();
 			""")
 	int getLastInsertId();
+	@Select("""
+			SELECT R.* M.nickname AS writerName
+				FROM reply AS R
+				INNER JOIN `member` AS M
+				ON R.memberId = M.id
+				WHERE R.relTypeCode = 'article'
+				AND R.relId=#{id}
+				
+			""")
+	List<Reply> getForPrintReplies(String relTypeCode, int id);
 	
 }

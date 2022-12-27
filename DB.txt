@@ -260,6 +260,8 @@ relId = 1,
 
 SELECT * FROM reply;
 
+ALTER TABLE `SB_AM`.`reply` ADD INDEX (`relTypeCode` , `relId`); 
+
 # 난수 생성
 SELECT FLOOR(RAND() * 3) + 1
 
