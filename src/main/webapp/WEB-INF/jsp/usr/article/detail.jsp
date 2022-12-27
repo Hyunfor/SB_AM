@@ -61,7 +61,7 @@
 </script>
 
 <section class="mt-8 text-xl">
-	<div class="container mx-auto px-3">
+	<div class="container mx-auto px-3 pb-5 border-bottom-line">
 		<div class="table-box-type-1">
 			<table>
 				<colgroup>
@@ -129,6 +129,26 @@
 		
 	</div>
 	
+</section>
+
+<section class="mt-5 text-xl">
+	<div class="container mx-auto px-3 ">
+	
+		<h2>댓글</h2>
+		<form action="../reply/doWrite" method="POST">
+			
+			<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
+				<div class="mb-2"><span>작성자</span></div>
+				<textarea class="textarea textarea-bordered w-full"name="body" cols="2"  placeholder="댓글 작성" ></textarea>
+				<div class="flex justify-end">
+					<button class="btn btn-outline btn-info btn-sm">등록</button>
+				</div>
+			</div>
+		
+		</form>
+	
+	</div>
+
 </section>
 
 <%@ include file="../common/foot.jsp"%>
