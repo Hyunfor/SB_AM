@@ -55,7 +55,7 @@ public class UsrArticleController {
 		
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 			
-		int id = (int) writeArticleRd.getData1();
+		int id = writeArticleRd.getData1();
 		
 		return Utility.jsReplace(Utility.f("%d번 글이 생성되었습니다", id), Utility.f("detail?id=%d", id));
 	}
