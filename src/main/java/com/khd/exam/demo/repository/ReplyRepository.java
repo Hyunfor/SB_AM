@@ -27,13 +27,13 @@ public interface ReplyRepository {
 			""")
 	int getLastInsertId();
 	@Select("""
-			SELECT R.* M.nickname AS writerName
+			SELECT R.*, M.nickname AS writerName
 				FROM reply AS R
 				INNER JOIN `member` AS M
 				ON R.memberId = M.id
-				WHERE R.relTypeCode = 'article'
-				AND R.relId=#{id}
-				
+				WHERE R.relTypeCode = #{relTypeCode}
+				AND R.relId = #{id}
+				ORDER BY R.id DESC
 			""")
 	List<Reply> getForPrintReplies(String relTypeCode, int id);
 	

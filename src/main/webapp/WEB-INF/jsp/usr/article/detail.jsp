@@ -166,6 +166,9 @@
 		<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 여부-->
 		
 			<form action="../reply/doWrite" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
+			
+				<input type="hidden" name="relTypeCode" value="article" />
+				<input type="hidden" name="relId" value="${article.id }" />
 				
 				<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
 					<div class="mb-2"><span>작성자</span></div>

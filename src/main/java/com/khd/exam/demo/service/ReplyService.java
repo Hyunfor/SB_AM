@@ -26,9 +26,7 @@ public class ReplyService {
 		return ResultData.from("S-1", Utility.f("%d번 댓글이 생성되었습니다", id), "id", id);
 	}
 
-	public List<Reply> getForPrintReplies(String string, int id) {
-		
-		return null;
+	public List<Reply> getForPrintReplies(String relTypeCode, int id) {
+		return replyRepository.getForPrintReplies(relTypeCode, id);
 	}
-
 }
