@@ -95,7 +95,7 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td>${article.body}</td>
+						<td>${article.getForPrintBody() }</td>
 					</tr>
 					<tr>
 						<th>추천</th>
@@ -150,16 +150,28 @@
 
 </script>
 
-<section class="mt-5 text-xl">
+<section class="mt-5 text-xl mb-5">
 	<div class="container mx-auto px-3 ">
 
 <!-- 	반복문 돌려서 list처리 여기서부터 -->	
 		<h2>댓글<span class="text-base">(${replies.size() }개)</span></h2>
 		<c:forEach var="reply" items="${replies }">
 			<div class="py-2 pl-16 border-bottom-line text-base">
-				<div class="font-semibold"><span>${reply.writerName }</span></div>
-				<div><span>${reply.body }</span></div>
-				<div class="text-sm text-gray-400"><span>${reply.updateDate }</span></div>
+				<div class="flex justify-between">
+					<div class="font-semibold"><span>${reply.writerName }</span></div>
+<!-- 					여기서부터 -->
+					<div class="dropdown">
+						<button class="btn btn-circle btn-ghost btn-sm">
+		      				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+		    			</button>
+		    			<ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-20">
+					        <li><a>수정</a></li>
+					    	<li><a>삭제</a></li>
+					    </ul>
+	    			</div>
+<!-- 	    			여기까지 -->
+    			</div>
+				<div><span>${reply.getForPrintBody() }</span></div>
 			</div>
 		</c:forEach>
 <!--  	여기까지-->
@@ -171,7 +183,7 @@
 				<input type="hidden" name="relId" value="${article.id }" />
 				
 				<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
-					<div class="mb-2"><span>작성자</span></div>
+					<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
 					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" ></textarea>
 					<div class="flex justify-end">
 						<button class="btn btn-outline btn-success btn-sm">등록</button>

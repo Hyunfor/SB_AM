@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import com.khd.exam.demo.service.MemberService;
 import com.khd.exam.demo.util.Utility;
 
 import lombok.Getter;
@@ -19,23 +20,29 @@ import lombok.Getter;
 public class Rq {
 	@Getter
 	private int loginedMemberId;
+	@Getter
+	private Member loginedMember;
+	
 	private HttpServletRequest req;
 	private HttpServletResponse resp;
 	private HttpSession session;
 
-	public Rq(HttpServletRequest req, HttpServletResponse resp) { // loginedMemberId 검증
+	public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) { // loginedMemberId 검증
 		this.req = req;
 		this.resp = resp;
 		
 		this.session= req.getSession();
 		
 		int loginedMemberId = 0;
+		Member loginedMember = null;
 		
 		if(session.getAttribute("loginedMemberId") != null) { // 로그인 체크
 			loginedMemberId = (int) session.getAttribute("loginedMemberId"); // 가져와서 쓰려면 형변환
+			loginedMember = memberService.getMemberById(loginedMemberId);
 		}
 		
 		this.loginedMemberId = loginedMemberId;
+		this.loginedMember = loginedMember;
 		
 		this.req.setAttribute("rq", this); // 요청에 rq 키를 세팅
 	}
