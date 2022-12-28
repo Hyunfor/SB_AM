@@ -118,7 +118,7 @@
 		</div>
 		
 		<div class="mt-2">
-			<button class="btn-text-link btn btn-active btn-ghost"  type="button" onclick="history.back();">뒤로가기</button>
+			<button class="btn-text-link btn btn-active btn-ghost"  type="button" onclick="history.back();">목록으로</button>
 			
 			<c:if test="${article.actorCanChangeData }">
 				<a class="btn-text-link btn btn-active btn-ghost" href="modify?id=${article.id }">수정</a>
@@ -160,18 +160,21 @@
 				<div class="flex justify-between">
 					<div class="font-semibold"><span>${reply.writerName }</span></div>
 <!-- 					여기서부터 -->
-					<div class="dropdown">
-						<button class="btn btn-circle btn-ghost btn-sm">
-		      				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
-		    			</button>
-		    			<ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-20">
-					        <li><a>수정</a></li>
-					    	<li><a>삭제</a></li>
-					    </ul>
-	    			</div>
+					<c:if test="${reply.actorCanChangeData }">
+						<div class="dropdown">
+							<button class="btn btn-circle btn-ghost btn-sm">
+			      				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+			    			</button>
+			    			<ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-20">
+						        <li><a class="btn btn-outline btn-success">수정</a></li> <!-- 댓글 삭제 -->
+						    	<li><a class="btn btn-outline btn-error">삭제</a></li> <!-- 댓글 수정 -->
+						    	<!-- 답댓글 기능 구현 생각해보기 개인 프로젝트-->
+						    </ul>
+		    			</div>
+	    			</c:if>
 <!-- 	    			여기까지 -->
     			</div>
-				<div><span>${reply.getForPrintBody() }</span></div>
+				<div><span>${reply.getForPrintBody() }</span></div> <!-- reply에서 가져온 정보를 body에 넘기기 -->
 			</div>
 		</c:forEach>
 <!--  	여기까지-->

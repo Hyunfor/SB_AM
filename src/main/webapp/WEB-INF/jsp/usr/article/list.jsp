@@ -45,6 +45,7 @@
 						<th>작성자</th>
 						<th>조회수</th>
 						<th>추천</th>
+						<!-- 게시글 리스트에서 현 댓글 갯수 보는 기능 구현 생각하기 개인 프로젝트-->
 					</tr>
 				</thead>
 
@@ -57,6 +58,7 @@
 							<td>${article.writerName}</td>
 							<td>${article.viewCount}</td>
 							<td>${article.sumReactionPoint}</td>
+							<!-- 게시글 리스트에서 현 댓글 갯수 보는 기능 구현 생각하기 개인 프로젝트-->
 						</tr>
 					</c:forEach>
 					
