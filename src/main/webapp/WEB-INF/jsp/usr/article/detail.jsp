@@ -180,12 +180,32 @@
 	}  */
 	
 	/* 댓글 수정 기능 ajax */
+	
+	originalForm = null; /* 수정 중복 방지 */
+	originalId = null;
+	
+	function ReplyModify__cancel(md_reply) {
+		let replyContent = $('#' + md_reply);
+		replyContent.html(originalForm);
+		
+		originalForm = null;
+		originalId = null;
+	}
+	
 	function ReplyModify__getForm(replyId, md_reply){ 
+		
+		if(originalForm != null){
+			ReplyModify__cancel(originalId);
+		}
 		
 		$.get('../reply/getModifyForm', {
 			id : replyId,
 			ajaxMode: 'Y'
 		}, function(data){
+			
+			let replyContent = $('#' + md_reply);
+			originalId = md_reply;
+			originalForm = replyContent.html();
 			
 			let modifyForm = $('#' + md_reply);
 			
@@ -197,8 +217,9 @@
 					<div class="mb-2"><span>\${data.data1.writerName}</span></div>
 					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" >\${data.data1.body}</textarea>
 					<div class="flex justify-end">
-						<a href="detail?id=${data.data1.relId} " class="btn btn-outline btn-error btn-sm mr-2" >취소</a>
+					<a onclick="ReplyModify__cancel(\${md_reply})" class="btn btn-outline btn-error btn-sm mr-2">취소</a>
 						<button class="btn btn-outline btn-success btn-sm">등록</button>
+						
 					</div>
 				</div>
 			
