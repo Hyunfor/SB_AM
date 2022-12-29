@@ -147,16 +147,84 @@
 		form.submit();
 		
 	}
-
+	
+/* 	function ReplyModify__getForm(md_reply){ 
+		alert(md_reply);
+		$('#test').html('<span>html()함수 테스트</sapn>');
+		/* $('#test').append('<span>append()함수 테스트</sapn>'); 
+	} */
+	
+	/* 댓글 수정 기능 동기화 v-*/
+/* 	function ReplyModify__getForm(md_reply){ 
+		let modifyForm = $('#' + md_reply);
+		
+		modifyForm.empty().html(""); 태그를 제외한 댓글 내용만 제거 
+		
+		let addHtml=`<form action="../reply/doWrite" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
+			
+			<input type="hidden" name="relTypeCode" value="article" />
+			<input type="hidden" name="relId" value="${article.id }" />
+			
+			<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
+				<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
+				<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" ></textarea>
+				<div class="flex justify-end">
+					<a href="detail?id=${article.id}" class="btn btn-outline btn-error btn-sm mr-2" >취소</a>
+					<button class="btn btn-outline btn-success btn-sm">등록</button>
+				</div>
+			</div>
+		
+		</form>`;
+		
+		modifyForm.append(addHtml);
+	}  */
+	
+	/* 댓글 수정 기능 ajax */
+	function ReplyModify__getForm(replyId, md_reply){ 
+		
+		$.get('../reply/getModifyForm', {
+			id : replyId,
+			ajaxMode: 'Y'
+		}, function(data){
+			
+			let modifyForm = $('#' + md_reply);
+			
+			let addHtml=`<form action="../reply/doModify" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
+				
+				<input type="hidden" name="id" value="\${data.data1.id}" />
+				
+				<div class="mt-2 p-4 border rounded-lg border-gray-200 text-base">
+					<div class="mb-2"><span>\${data.data1.writerName}</span></div>
+					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" >\${data.data1.body}</textarea>
+					<div class="flex justify-end">
+						<a href="detail?id=${data.data1.relId} " class="btn btn-outline btn-error btn-sm mr-2" >취소</a>
+						<button class="btn btn-outline btn-success btn-sm">등록</button>
+					</div>
+				</div>
+			
+			</form>`;
+			
+			modifyForm.empty("");
+			modifyForm.append(addHtml);
+			
+		}, 'json');
+		
+		
+	} 
+	
 </script>
+
+
+
 
 <section class="mt-5 text-xl mb-5">
 	<div class="container mx-auto px-3 ">
 
 <!-- 	반복문 돌려서 list처리 여기서부터 -->	
 		<h2>댓글<span class="text-base">(${replies.size() }개)</span></h2>
-		<c:forEach var="reply" items="${replies }">
-			<div class="py-2 pl-16 border-bottom-line text-base">
+		<c:forEach var="reply" items="${replies }" varStatus="status">
+			<div id="${status.count }" class="py-2 pl-16 border-bottom-line text-base">
+			<!-- <div id="test">test</div> 댓글 수정 테스트-->
 				<div class="flex justify-between">
 					<div class="font-semibold"><span>${reply.writerName }</span></div>
 <!-- 					여기서부터 -->
@@ -166,7 +234,7 @@
 			      				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
 			    			</button>
 			    			<ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-20">
-						        <li><a class="btn btn-outline btn-success" href="../reply/modify?id=${reply.id }">수정</a></li> <!-- 댓글 수정 -->
+						        <li><a class="btn btn-outline btn-success" onclick="ReplyModify__getForm(${reply.id}, ${status.count })">수정</a></li> <!-- 댓글 수정 -->
 						    	<li><a class="btn btn-outline btn-error" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../reply/doDelete?id=${reply.id }">삭제</a></li> <!-- 댓글 삭제 -->
 						    	<!-- 답댓글 기능 구현 생각해보기 개인 프로젝트-->
 						    </ul>
@@ -194,6 +262,7 @@
 				</div>
 			
 			</form>
+			
 		</c:if>
 	</div>
 

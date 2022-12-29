@@ -71,10 +71,6 @@ public class UsMemberController {
 	@ResponseBody // 응답하는 화면 보여주는 역할
 	public String doLogin(String loginId, String loginPw) {
 		
-		if(rq.getLoginedMemberId() != 0) { // 중복 로그인 방지
-			return Utility.jsHistoryBack("이미 로그인 되어있습니다");
-		}
-		
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
 			return Utility.jsHistoryBack("아이디를 입력해주세요.");
 		}
@@ -100,10 +96,6 @@ public class UsMemberController {
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody 
 	public String doLogout() {
-		
-		if(rq.getLoginedMemberId() == 0) { // 중복 로그인 방지
-			return Utility.jsHistoryBack("로그아웃 상태입니다.");
-		}
 
 		rq.logout();
 		
