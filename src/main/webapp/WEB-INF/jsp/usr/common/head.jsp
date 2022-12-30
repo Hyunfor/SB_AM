@@ -25,7 +25,7 @@
 <body>
 	
 	<header>
-		<div class="h-20 flex container mx-auto text-4xl">
+		<div class="h-20 flex container mx-auto text-3xl">
 			<a class="h-full px-3 flex items-center" href="#"><span>로고</span></a>
 			<div class="flex-grow"></div>
 			<ul class="flex">
@@ -35,7 +35,8 @@
 				<c:if test="${rq.getLoginedMemberId() == 0 }"> <!-- 로그인 x 상태 -->
 					<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/login"><span>LOGIN</span></a></li>
 				</c:if>
-				<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 상태 -->
+				<c:if test="${rq.getLoginedMemberId() != 0 }"> <!-- 로그인 상태일때 보임 -->
+				<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/myPage"><span>MYPAGE</span></a></li>
 					<li class="hover:underline"><a class="h-full px-3 flex items-center" href="/usr/member/doLogout"><span>LOGOUT</span></a></li>
 				</c:if>
 				

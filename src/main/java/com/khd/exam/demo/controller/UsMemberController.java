@@ -103,5 +103,71 @@ public class UsMemberController {
 		
 	}
 	
+	@RequestMapping("/usr/member/myPage")
+	public String showMyPage() {
+		return "usr/member/myPage";
+	}
+
+	@RequestMapping("/usr/member/checkPassword")
+	public String showCheckPassword() {
+		return "usr/member/checkPassword";
+	}
+
+	@RequestMapping("/usr/member/doCheckPassword")
+	public String doCheckPassword(String loginPw) {
+
+		if (Utility.empty(loginPw)) {
+			return rq.jsReturnOnView("비밀번호를 입력해주세요", true);
+		}
+
+		if (rq.getLoginedMember().getLoginPw().equals(loginPw) == false) {
+			return rq.jsReturnOnView("비밀번호가 일치하지 않습니다", true);
+		}
+
+		return "usr/member/modify";
+	}
+
+	@RequestMapping("/usr/member/doModify")
+	@ResponseBody
+	public String doModify(String nickname, String cellphoneNum, String email) {
+
+		if (Utility.empty(nickname)) {
+			return Utility.jsHistoryBack("닉네임을 입력해주세요");
+		}
+		if (Utility.empty(cellphoneNum)) {
+			return Utility.jsHistoryBack("전화번호를 입력해주세요");
+		}
+		if (Utility.empty(email)) {
+			return Utility.jsHistoryBack("이메일을 입력해주세요");
+		}
+
+		memberService.doModify(rq.getLoginedMemberId(), nickname, cellphoneNum, email);
+
+		return Utility.jsReplace("회원정보가 수정되었습니다", "/");
+	}
+
+	@RequestMapping("/usr/member/passWordModify")
+	public String passWordModify() {
+		return "usr/member/passWordModify";
+	}
+
+	@RequestMapping("/usr/member/doPassWordModify")
+	@ResponseBody
+	public String doPassWordModify(String loginPw, String loginPwConfirm) {
+
+		if (Utility.empty(loginPw)) {
+			return Utility.jsHistoryBack("새 비밀번호를 입력해주세요");
+		}
+		if (Utility.empty(loginPwConfirm)) {
+			return Utility.jsHistoryBack("새 비밀번호 확인을 입력해주세요");
+		}
+		if (loginPw.equals(loginPwConfirm) == false) {
+			return Utility.jsHistoryBack("비밀번호가 일치하지 않습니다");
+		}
+
+		memberService.doPassWordModify(rq.getLoginedMemberId(), loginPw);
+
+		return Utility.jsReplace("비밀번호가 수정되었습니다", "/");
+	}
 	
 }
