@@ -181,16 +181,8 @@
 	
 	/* 댓글 수정 기능 ajax */
 	
-	originalForm = null; /* 수정 중복 방지 */
+	originalForm = null; /* 수정 폼 노출 중복 방지 */
 	originalId = null;
-	
-	function ReplyModify__cancel(md_reply) {
-		let replyContent = $('#' + md_reply);
-		replyContent.html(originalForm);
-		
-		originalForm = null;
-		originalId = null;
-	}
 	
 	function ReplyModify__getForm(replyId, md_reply){ 
 		
@@ -198,7 +190,7 @@
 			ReplyModify__cancel(originalId);
 		}
 		
-		$.get('../reply/getModifyForm', {
+		$.get('../reply/getReplyContent', {
 			id : replyId,
 			ajaxMode: 'Y'
 		}, function(data){
@@ -225,13 +217,21 @@
 			
 			</form>`;
 			
-			modifyForm.empty("");
-			modifyForm.append(addHtml);
+			replyContent.empty().html("");
+			replyContent.append(addHtml);
 			
 		}, 'json');
 		
 		
 	} 
+	
+	function ReplyModify__cancel(md_reply) {
+		let replyContent = $('#' + md_reply);
+		replyContent.html(originalForm);
+		
+		originalForm = null;
+		originalId = null;
+	}
 	
 </script>
 
