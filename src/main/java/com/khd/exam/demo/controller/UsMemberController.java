@@ -123,8 +123,10 @@ public class UsMemberController {
 		if (rq.getLoginedMember().getLoginPw().equals(loginPw) == false) {
 			return rq.jsReturnOnView("비밀번호가 일치하지 않습니다", true);
 		}
+		
+		String memberModifyAuthKey = memberService.genMemberModifyAuthKey(rq.getLoginedMemberId());
 
-		return "usr/member/modify";
+		return "usr/member/modify?memberModifyAuthKey=" + memberModifyAuthKey;
 	}
 
 	@RequestMapping("/usr/member/doModify")

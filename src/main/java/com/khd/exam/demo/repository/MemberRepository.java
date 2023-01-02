@@ -70,7 +70,8 @@ public interface MemberRepository { // class는 사용 불가능 100% 추상메�
 
 	@Update("""
 			UPDATE `member`
-				SET loginPw = #{loginPw}
+				SET updateDate = NOW(),
+				loginPw = #{loginPw}
 				WHERE id = #{loginedMemberId}
 			""")
 	public void doPassWordModify(int loginedMemberId, String loginPw);

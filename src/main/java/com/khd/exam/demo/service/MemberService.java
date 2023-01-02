@@ -12,10 +12,12 @@ import com.khd.exam.demo.vo.ResultData;
 public class MemberService {
 	
 	private MemberRepository memberRepository;
+	private AttrService attrService;
 
 	@Autowired
-	public MemberService(MemberRepository memberRepository) {
+	public MemberService(MemberRepository memberRepository, AttrService attrService) {
 		this.memberRepository = memberRepository;
+		this.attrService = attrService;
 	}
 
 	public ResultData<Integer> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
@@ -57,6 +59,15 @@ public class MemberService {
 
 	public void doPassWordModify(int loginedMemberId, String loginPw) {
 		memberRepository.doPassWordModify(loginedMemberId, loginPw);
+	}
+
+	public String genMemberModifyAuthKey(int loginedMemberId) {
+
+		String memberModifyAuthKey = Utility.getTempPassword(10);
+
+		attrService.setValue("member", loginedMemberId, "extra", "memberModifyAuthKey", memberModifyAuthKey, Utility.getDateStrLater(60 * 5));
+
+		return memberModifyAuthKey;
 	}
 
 	
