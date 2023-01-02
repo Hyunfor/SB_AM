@@ -82,6 +82,10 @@ public class Utility {
 
 		return sb.toString();
 	}
+	public static String jsReturnOnView(String string, boolean b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 
