@@ -233,6 +233,9 @@
 		originalId = null;
 	}
 	
+	
+	/* 대댓글 기능 생각 */
+	
 </script>
 
 

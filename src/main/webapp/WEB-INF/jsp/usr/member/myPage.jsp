@@ -17,7 +17,7 @@
 						<td>${rq.loginedMember.regDate}</td>
 					</tr>
 					<tr>
-						<th>정보 수정 일</th>
+						<th>마지막 정보 수정</th>
 						<td>${rq.loginedMember.updateDate}</td>
 					</tr>
 					<tr>
