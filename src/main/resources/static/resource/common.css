@@ -1,23 +1,23 @@
 @font-face {
-    font-family: 'KorailRoundGothicBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'KorailRoundGothicBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
-    font-weight: 500;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'KorailRoundGothicBold';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KorailRoundGothicBold.woff2') format('woff2');
+    font-family: 'KIMM_Bold';
     font-weight: 700;
     font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
 }
-html > body {
-	font-family: 'KorailRoundGothicBold', sans=serif;
+
+@font-face {
+    font-family: 'KIMM_Bold';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KIMM_Bold.woff2') format('woff2');
+}
+
+html > body,  html > body .toastui-editor-contents, html > body .ProseMirror{
+	font-family: 'KIMM_Bold', sans-serif;
+}
+
+html > body .toastui-editor-contents, html > body .ProseMirror {
+	font-size: 1.25rem;
 }
 
 .table-box-type-1 > table {
