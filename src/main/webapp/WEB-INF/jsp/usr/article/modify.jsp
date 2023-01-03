@@ -46,8 +46,8 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" class="btn btn-active btn-ghost">
-								<button>수정</button>
+							<td colspan="2">
+								<button class="btn btn-active btn-ghost ">수정</button>
 							</td>
 						</tr>
 					</tbody>
