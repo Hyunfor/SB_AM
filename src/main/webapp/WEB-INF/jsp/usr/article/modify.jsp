@@ -3,11 +3,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <c:set var="pageTitle" value="Article Modify"/>    
 <%@ include file="../common/head.jsp" %>
+<%@ include file="../common/toastUiEditorLib.jsp"%>
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
-		<form action="doModify" method="POST">
+		<form action="doModify" method="POST" onsubmit="submitForm(this); return false;">
 			<input type="hidden" name="id" value="${article.id }"/>
+			<input type="hidden" name="body"/>
 			<div class="table-box-type-1">
 				<table class="table table-zebra w-full">
 					<colgroup>
@@ -37,10 +39,16 @@
 						</tr>
 						<tr>
 							<th>내용</th>
-							<td><textarea class="textarea textarea-bordered w-full" name="body" placeholder="내용을 입력해주세요." >${article.body }</textarea></td>
+							<td>
+								<div class="toast-ui-viewer">
+									<script type="text/x-template">${article.getForPrintBody() }</script>
+								</div>
+							</td>
 						</tr>
 						<tr>
-							<td colspan="2" class="btn btn-active btn-ghost"><button>수정</button></td>
+							<td colspan="2" class="btn btn-active btn-ghost">
+								<button>수정</button>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -48,8 +56,8 @@
 		</form>
 		
 		<div class="btns">
-			<button class="btn-text-link"  type="button" onclick="history.back();">뒤로가기</button>	
-			<a class="btn-text-link"  onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="doDelete?id=${article.id }">삭제</a>
+			<button class="btn-text-link btn btn-active btn-ghost"  type="button" onclick="history.back();">뒤로가기</button>	
+			<a class="btn-text-link btn btn-active btn-ghost"  onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="doDelete?id=${article.id }">삭제</a>
 		</div>
 		
 		

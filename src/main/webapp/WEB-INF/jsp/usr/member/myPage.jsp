@@ -29,6 +29,10 @@
 						<td>${rq.loginedMember.name}</td>
 					</tr>
 					<tr>
+						<th>닉네임</th>
+						<td>${rq.loginedMember.nickname}</td>
+					</tr>
+					<tr>
 						<th>전화번호</th>
 						<td>${rq.loginedMember.cellphoneNum }</td>
 					</tr>
