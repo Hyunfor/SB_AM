@@ -66,8 +66,6 @@
 				
 			</table>	
 			
-			</table>
-			
 		</div>
 		
 		<div class="mt-2 flex justify-end">

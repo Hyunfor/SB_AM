@@ -24,41 +24,46 @@ public class UsMemberController {
 		this.rq = rq;
 	}
 	
+	@RequestMapping("/usr/member/join")
+	public String showJoin() { 	// 유저에게 유저가 요청한 화면을 보여주는 역할
+		return "usr/member/join";
+	}
+	
 // 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody 
-	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
 		
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
-			return ResultData.from("F-1", "아이디를 입력해주세요.");
+			return Utility.jsHistoryBack("아이디를 입력해주세요.");
 		}
 		if(Utility.empty(loginPw)) { 
-			return ResultData.from("F-2", "비밀번호를 입력해주세요.");
+			return Utility.jsHistoryBack("비밀번호를 입력해주세요.");
 		}
 		if(Utility.empty(name)) { 
-			return ResultData.from("F-3", "이름을 입력해주세요.");
+			return Utility.jsHistoryBack("이름을 입력해주세요.");
 		}
 		if(Utility.empty(nickname)) { 
-			return ResultData.from("F-4", "닉네임을 입력해주세요.");
+			return Utility.jsHistoryBack("닉네임을 입력해주세요.");
 		}
 		if(Utility.empty(cellphoneNum)) { 
-			return ResultData.from("F-5", "핸드폰 번호를 입력해주세요.");
+			return Utility.jsHistoryBack("핸드폰 번호를 입력해주세요.");
 		}
 		if(Utility.empty(email)) { 
-			return ResultData.from("F-6", "이메일을 입력해주세요.");
+			return Utility.jsHistoryBack("이메일을 입력해주세요.");
 		}
 		
 		
 		ResultData<Integer> doJoinRd = memberService.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 		
 		if(doJoinRd.isFail()) { // memberService에서 중복 아이디 or 이름, 이메일 체크	
-			return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg()); // 방법1
+			return Utility.jsHistoryBack( doJoinRd.getMsg()); // 방법1
 //			return (ResultData) doJoinRd; // 방법2
 		}
 	
 		Member member = memberService.getMemberById((int)doJoinRd.getData1()); // Data는 Object라 int로 형변환
 		
-		return ResultData.from(doJoinRd.getResultCode(), doJoinRd.getMsg(), "member", member);
+		return Utility.jsReplace(doJoinRd.getMsg(), "/"); // 가입 완료시 메인 화면으로
 		
 	}
 	
