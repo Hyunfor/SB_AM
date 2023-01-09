@@ -289,6 +289,11 @@ ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`);
 ALTER TABLE `attr` ADD COLUMN `expireDate` DATETIME NULL AFTER `value`;
 
 
+# 멤버 테이블의 테스트 데이터를 sha256으로 업데이트
+UPDATE `member`
+SET loginPw = SHA2(loginPw, 256);
+
+
 
 # 난수 생성
 SELECT FLOOR(RAND() * 3) + 1

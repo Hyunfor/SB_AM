@@ -75,7 +75,6 @@ public class ReplyService {
 	public Reply getReplyContent(int id) {
 		return replyRepository.getReplyContent(id);
 	}
-
 	
 	
 }

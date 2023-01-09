@@ -3,11 +3,13 @@
 <c:set var="pageTitle" value="APITest2" />
 <%@ include file="../common/head.jsp"%>
 
-<div id="map" style="width:600px;height:600px;"></div>
-<p>
-    <button onclick="setCenter()">지도 중심좌표 이동시키기</button> 
-    <button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button> 
-</p>
+<div class="container mx-auto px-3">
+	<div id="map" style="width:600px;height:600px;"></div>
+	<p>
+	    <button onclick="setCenter()">지도 중심좌표 이동시키기</button> 
+	    <button onclick="panTo()">지도 중심좌표 부드럽게 이동시키기</button> 
+	</p>
+</div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=	323acdaa1e769415ba96a7a1ef134016"></script>
 

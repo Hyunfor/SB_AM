@@ -22,6 +22,8 @@
 	
 </script>
 
-<div class="APITest"></div>
+<div class="container mx-auto px-3">
+	<div class="APITest"></div>
+</div>
 
 <%@ include file="../common/foot.jsp"%>

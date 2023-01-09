@@ -82,7 +82,6 @@ public class UsrReplyController {
 
 		return ResultData.from("S-1", "댓글 정보 조회 성공", "reply", reply);
 	}
-	
 
 
 }

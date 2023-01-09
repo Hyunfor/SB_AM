@@ -22,4 +22,5 @@ public class Reply {
 	public String getForPrintBody() {
 		return this.body.replaceAll("\n", "<br> ");
 	}
+
 }

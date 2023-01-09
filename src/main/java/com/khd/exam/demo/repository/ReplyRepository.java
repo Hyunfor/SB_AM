@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import com.khd.exam.demo.vo.Reply;
 
 @Mapper
-public interface ReplyRepository {
+public interface ReplyRepository { // DAO와 Repository의 역할은 거의 동일함.
 
 	@Insert("""
 			INSERT INTO reply
@@ -68,7 +68,6 @@ public interface ReplyRepository {
 				WHERE R.id = #{id}
 			""")
 	Reply getReplyContent(int id);
-
 	
 	
 }

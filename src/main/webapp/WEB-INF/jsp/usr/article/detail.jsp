@@ -185,61 +185,7 @@
 	}  */
 	
 	/* 댓글 수정 기능 ajax */
-	
-	originalForm = null; /* 수정 폼 노출 중복 방지 */
-	originalId = null;
-	
-	function ReplyModify__getForm(replyId, md_reply){ 
-		
-		if(originalForm != null){
-			ReplyModify__cancel(originalId);
-		}
-		
-		$.get('../reply/getReplyContent', {
-			id : replyId,
-			ajaxMode: 'Y'
-		}, function(data){
-			
-			let replyContent = $('#' + md_reply);
-			originalId = md_reply;
-			originalForm = replyContent.html();
-			
-			let modifyForm = $('#' + md_reply);
-			
-			let addHtml=`<form action="../reply/doModify" method="POST" onsubmit="ReplyWrite__submitForm(this); return false;">
-				
-				<input type="hidden" name="id" value="\${data.data1.id}" />
-				
-				<div class="mt-2 p-4 border rounded-lg border-gray-200 text-base">
-					<div class="mb-2"><span>\${data.data1.writerName}</span></div>
-					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" >\${data.data1.body}</textarea>
-					<div class="flex justify-end">
-					<a onclick="ReplyModify__cancel(\${md_reply})" class="btn btn-outline btn-error btn-sm mr-2">취소</a>
-						<button class="btn btn-outline btn-success btn-sm">등록</button>
-						
-					</div>
-				</div>
-			
-			</form>`;
-			
-			replyContent.empty().html("");
-			replyContent.append(addHtml);
-			
-		}, 'json');
-		
-		
-	} 
-	
-	function ReplyModify__cancel(md_reply) {
-		let replyContent = $('#' + md_reply);
-		replyContent.html(originalForm);
-		
-		originalForm = null;
-		originalId = null;
-	}
-	
-	
-	/* 대댓글 기능 생각 */
+                
 	
 </script>
 
@@ -266,6 +212,7 @@
 						        <li><a class="btn btn-outline btn-success" onclick="ReplyModify__getForm(${reply.id}, ${status.count })">수정</a></li> <!-- 댓글 수정 -->
 						    	<li><a class="btn btn-outline btn-error" onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../reply/doDelete?id=${reply.id }">삭제</a></li> <!-- 댓글 삭제 -->
 						    	<!-- 답댓글 기능 구현 생각해보기 개인 프로젝트-->
+						    	<li><a class="btn btn-outline btn-success" onclick="ReplyAdd__getForm(${reply.id}, ${status.count })" href="../reply/addReply?id=${reply.id }">댓글</a></li> <!-- 대댓글 -->
 						    </ul>
 		    			</div>
 	    			</c:if>
