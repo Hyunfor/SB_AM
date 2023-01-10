@@ -226,6 +226,15 @@ CREATE TABLE reply (
 	`body` TEXT NOT NULL
 );
 
+# reply(대댓글) 테이블 칼럼 추가
+ALTER TABLE reply ADD(
+      REPARENT INT(11), # 부모댓글
+      REDEPTH INT, # 깊이
+      REORDER INT # 순서 
+);
+
+UPDATE reply SET REPARENT=relId, REDEPTH=0, REORDER=relId;
+
 INSERT INTO reply
 SET regDate = NOW(),
 updateDate = NOW(),

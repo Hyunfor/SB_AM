@@ -190,8 +190,6 @@
 </script>
 
 
-
-
 <section class="mt-5 text-xl mb-5">
 	<div class="container mx-auto px-3 ">
 

@@ -40,7 +40,7 @@
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
 		<form action="doModify" method="POST" onsubmit="MemberModify__submit(this); return false;">
-		<input type="text" name="memberModifyAuthKey" value="${param.memberModifyAuthKey }" />
+		<input type="hidden" name="memberModifyAuthKey" value="${param.memberModifyAuthKey }" />
 			<div class="table-box-type-1">
 				<table class="table table-zebra w-full">
 					<colgroup>

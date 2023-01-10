@@ -19,8 +19,36 @@ public class Reply {
 	private String writerName;
 	private boolean actorCanChangeData;
 	
+	private String reparent;
+    private String redepth;
+    private Integer reorder;
+	
 	public String getForPrintBody() {
 		return this.body.replaceAll("\n", "<br> ");
 	}
+	
+    public String getReparent() {
+        return reparent;
+    }
+   
+    public void setReparent(String reparent) {
+        this.reparent = reparent;
+    }
+
+    public String getRedepth() {
+        return redepth;
+    }
+
+    public void setRedepth(String redepth) {
+        this.redepth = redepth;
+    }
+
+    public Integer getReorder() {
+        return reorder;
+    }
+
+    public void setReorder(Integer reorder) {
+        this.reorder = reorder;
+    }
 
 }

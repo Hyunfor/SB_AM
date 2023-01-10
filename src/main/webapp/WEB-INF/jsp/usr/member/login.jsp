@@ -33,8 +33,12 @@
 			</div>
 		</form>
 		
-		<div class="btns  mt-2">
-			<button class="btn-text-link btn btn-active btn-ghost  type="button" onclick="history.back();">뒤로가기</button>		
+		<div class="btns mt-2 flex justify-between">
+			<button class="btn-text-link btn btn-active btn-ghost  type="button" onclick="history.back();">뒤로가기</button>
+			<div>
+				<a class="btn btn-active btn-ghost" href="findLoginId">아이디 찾기</a>
+				<a class="btn btn-active btn-ghost" href="findLoginPw">비밀번호 찾기</a>
+			</div>		
 		</div>
 		
 	</div>
