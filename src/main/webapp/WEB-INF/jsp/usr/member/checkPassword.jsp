@@ -3,9 +3,25 @@
 <c:set var="pageTitle" value="CHECK PASSWORD" />
 <%@ include file="../common/head.jsp"%>
 
+<script>
+	function checkPassword__submit(form) {
+		form.loginPw.value = form.loginPw.value.trim();
+		
+		if (form.loginPw.value.length == 0) {
+			alert('비밀번호를 입력해주세요');
+			form.loginPw.focus();
+			
+			return;
+		}
+		
+		form.submit();
+		
+	}
+</script>
+
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
-		<form action="doCheckPassword" method="POST">
+		<form action="doCheckPassword" method="POST" onsubmit="checkPassword__submit(this); return false;">
 			<div class="table-box-type-1">
 				<table>
 					<colgroup>

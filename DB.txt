@@ -298,6 +298,33 @@ ALTER TABLE `attr` ADD INDEX (`relTypeCode`, `typeCode`, `type2Code`);
 ALTER TABLE `attr` ADD COLUMN `expireDate` DATETIME NULL AFTER `value`;
 
 
+# 파일테이블
+CREATE TABLE genFile (
+    id INT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME DEFAULT NULL,
+    updateDate DATETIME DEFAULT NULL,
+    delDate DATETIME DEFAULT NULL COMMENT '삭제 날짜',
+	delStatus TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제상태 (0 = 미삭제, 1 = 삭제)',
+    `relTypeCode` VARCHAR(20) NOT NULL,
+    `relId` INT UNSIGNED NOT NULL,
+    originFileName VARCHAR(100) NOT NULL,
+    fileExt VARCHAR(10) NOT NULL,
+    typeCode VARCHAR(20) NOT NULL,
+    type2Code VARCHAR(20) NOT NULL,
+    fileSize INT UNSIGNED NOT NULL,
+    fileExtTypeCode VARCHAR(10) NOT NULL,
+    fileExtType2Code VARCHAR(10) NOT NULL,
+    fileNo SMALLINT UNSIGNED NOT NULL,
+    fileDir VARCHAR(20) NOT NULL,
+    KEY relId (relTypeCode, relId, typeCode, type2Code, fileNo)
+);
+
+============================================================================================================================
+# 위의 선까지 초기화 실행
+
+SELECT * FROM genFile;
+SELECT SHA2('test1', 256);
+
 # 멤버 테이블의 테스트 데이터를 sha256으로 업데이트
 UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);

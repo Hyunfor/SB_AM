@@ -1,22 +1,33 @@
 package com.khd.exam.demo.vo;
 
-import lombok.Getter;
+import java.util.Map;
 
+import com.khd.exam.demo.util.Utility;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class ResultData<DT> { // <~~> == 제너릭
 
 	// S-1, F-1, F-2 ...성공, 실패 여부
-	@Getter
 	private String resultCode;
-	@Getter
 	private String msg;
-	@Getter
-	private String data1Name;
-	@Getter
 	private DT data1; // <DT> ~ 데이터 타입으로 쓰겠다고 지정. 내부가 아닌 외부에서 data1을 정함
-	@Getter
+	private String data1Name;
 	private String data2Name;
-	@Getter
 	private Object data2;
+	private Map<String, Object> body;
+	
+	public ResultData(String resultCode, String msg, Object... args) {
+		this.resultCode = resultCode;
+		this.msg = msg;
+		this.body = Utility.mapOf(args);
+	}
 	
 	// 오버로딩 // from 리턴타입 메서드로 만든것 뿐
 	public static <DT> ResultData <DT> from(String resultCode, String msg) {

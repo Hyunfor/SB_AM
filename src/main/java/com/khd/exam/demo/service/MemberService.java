@@ -46,7 +46,7 @@ public class MemberService {
 			
 			memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
 			int id = memberRepository.getLastInsertId();
-			return ResultData.from("S-1", "회원가입이 완료되었습니다", "id", id);
+			return new ResultData("S-1", "회원가입이 완료되었습니다", "id", id);
 		}
 
 		public Member getMemberById(int id) {
@@ -62,11 +62,11 @@ public class MemberService {
 	}
 	
 	public void doModify(int loginedMemberId, String nickname, String cellphoneNum, String email) {
-		memberRepository.doModify(loginedMemberId, nickname, cellphoneNum, email);
+		attrService.remove("member", loginedMemberId,"extra","memberModifyAuthKey");
 	}
 
 	public void doPassWordModify(int loginedMemberId, String loginPw) {
-		memberRepository.doPassWordModify(loginedMemberId, loginPw);
+		attrService.remove("member", loginedMemberId,"extra","memberModifyAuthKey");
 	}
 
 	public String genMemberModifyAuthKey(int loginedMemberId) {

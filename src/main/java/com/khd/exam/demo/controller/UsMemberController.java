@@ -1,10 +1,17 @@
 package com.khd.exam.demo.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
+import com.khd.exam.demo.service.GenFileService;
 import com.khd.exam.demo.service.MemberService;
 import com.khd.exam.demo.util.Utility;
 import com.khd.exam.demo.vo.Member;
@@ -16,12 +23,14 @@ public class UsMemberController {
 	
 	private MemberService memberService;
 	private Rq rq;
+	private GenFileService genFileService;
 
 	// 의존성 주입 - 객체만들지 않아도 됨
 	@Autowired 
-	public UsMemberController(MemberService memberService, Rq rq){
+	public UsMemberController(MemberService memberService, Rq rq, GenFileService genFileService){
 		this.memberService = memberService;
 		this.rq = rq;
+		this.genFileService = genFileService;
 	}
 	
 	@RequestMapping("/usr/member/join")
@@ -32,7 +41,7 @@ public class UsMemberController {
 // 액션 메서드
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody 
-	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email) {
+	public String doJoin(String loginId, String loginPw, String name, String nickname, String cellphoneNum, String email, MultipartRequest multipartRequest) {
 		
 		if(Utility.empty(loginId)) { // 유효성 검사(공백)
 			return Utility.jsHistoryBack("아이디를 입력해주세요.");
@@ -58,6 +67,18 @@ public class UsMemberController {
 		if(doJoinRd.isFail()) { // memberService에서 중복 아이디 or 이름, 이메일 체크	
 			return Utility.jsHistoryBack( doJoinRd.getMsg()); // 방법1
 //			return (ResultData) doJoinRd; // 방법2
+		}
+		
+		int newMemberId = (int) doJoinRd.getBody().get("id");
+
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+		for (String fileInputName : fileMap.keySet()) {
+			MultipartFile multipartFile = fileMap.get(fileInputName);
+
+			if (multipartFile.isEmpty() == false) {
+				genFileService.save(multipartFile, newMemberId);
+			}
 		}
 	
 		Member member = memberService.getMemberById((int)doJoinRd.getData1()); // Data는 Object라 int로 형변환
@@ -170,7 +191,7 @@ public class UsMemberController {
 
 	@RequestMapping("/usr/member/doModify")
 	@ResponseBody
-	public String doModify(String memberModifyAuthKey, String nickname, String cellphoneNum, String email) {
+	public String doModify(HttpServletRequest req,String memberModifyAuthKey, String nickname, String cellphoneNum, String email, MultipartRequest multipartRequest) {
 		
 		if (Utility.empty(memberModifyAuthKey)) {
 			return Utility.jsHistoryBack("회원 수정 인증코드가 필요합니다");
@@ -190,6 +211,19 @@ public class UsMemberController {
 		}
 		if (Utility.empty(email)) {
 			return Utility.jsHistoryBack("이메일을 입력해주세요");
+		}
+		if (req.getParameter("deleteFile__member__0__extra__profileImg__1") != null) {
+			genFileService.deleteGenFiles("member", rq.getLoginedMemberId(), "extra", "profileImg", 1);
+		}
+
+		Map<String, MultipartFile> fileMap = multipartRequest.getFileMap();
+
+		for (String fileInputName : fileMap.keySet()) {
+			MultipartFile multipartFile = fileMap.get(fileInputName);
+
+			if (multipartFile.isEmpty() == false) {
+				genFileService.save(multipartFile, rq.getLoginedMemberId());
+			}
 		}
 
 		memberService.doModify(rq.getLoginedMemberId(), nickname, cellphoneNum, email);

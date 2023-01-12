@@ -5,6 +5,9 @@
 
 <section class="mt-8 text-xl">
 	<div class="container mx-auto px-3">
+	<div class="w-40 border rounded-xl border-gray-400 mb-2">
+			<img class="w-full rounded-xl" src="${rq.getProfileImgUri(rq.loginedMemberId) }" onerror="${rq.getProfileFallbackImgOnErrorHtml() }" alt="" />
+		</div>
 		<div class="table-box-type-1">
 			<table class="table table-zebra w-full">
 				<colgroup>
