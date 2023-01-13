@@ -196,7 +196,28 @@
 <!-- 	반복문 돌려서 list처리 여기서부터 -->	
 		<h2>댓글<span class="text-base">(${replies.size() }개)</span></h2>
 		<c:forEach var="reply" items="${replies }" varStatus="status">
-			<div id="${status.count }" class="py-2 pl-16 border-bottom-line text-base">
+			<div id="${status.count }" class="py-2 ml-5 border-bottom-line text-base flex items-center">
+				<div class="w-16 h-16 rounded-circle">
+					<img class="w-16 h-16 rounded-circle object-cover" src="${rq.getProfileImgUri(reply.memberId) }" onerror="${rq.getProfileFallbackImgOnErrorHtml() }" alt=""/>
+				</div>
+				<div class="w-full ml-3">
+					<div class="flex justify-between">
+						<div class="font-semibold"><span>${reply.writerName }</span></div>
+						<c:if test="${reply.actorCanChangeData }">
+							<div class="dropdown">
+								<button class="btn btn-circle btn-ghost btn-sm">
+				      				<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="inline-block w-5 h-5 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"></path></svg>
+				    			</button>
+				    			<ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-20">
+							        <li><a onclick="ReplyModify__getForm(${reply.id }, ${status.count });">수정</a></li>
+							    	<li><a onclick="if(confirm('정말 삭제하시겠습니까?') == false) return false;" href="../reply/doDelete?id=${reply.id }">삭제</a></li>
+							    </ul>
+			    			</div>
+			    		</c:if>
+	    			</div>
+					<div><span>${reply.getForPrintBody() }</span></div>
+					<div class="text-sm text-gray-400"><span>${reply.updateDate }</span></div>
+				</div>
 			<!-- <div id="test">test</div> 댓글 수정 테스트-->
 				<div class="flex justify-between">
 					<div class="font-semibold"><span>${reply.writerName }</span></div>
@@ -230,6 +251,14 @@
 				<div class="mt-4 p-4 border rounded-lg border-gray-200 text-base">
 					<div class="mb-2"><span>${rq.loginedMember.nickname }</span></div>
 					<textarea class="textarea textarea-bordered w-full" name="body" rows="2"  placeholder="댓글 작성" ></textarea>
+					<div class="flex items-center">
+						<div class="w-16 h-16 rounded-circle mr-3">
+							<img class="w-16 h-16 rounded-circle object-cover" src="${rq.getProfileImgUri(rq.getLoginedMemberId()) }" onerror="${rq.getProfileFallbackImgOnErrorHtml() }" alt="" />
+						</div>
+						<div class="w-full">
+							<textarea class="textarea textarea-bordered w-full" name="body" rows="2" placeholder="댓글을 남겨보세요"></textarea>
+						</div>
+					</div>
 					<div class="flex justify-end">
 						<button class="btn btn-outline btn-success btn-sm">등록</button>
 					</div>
