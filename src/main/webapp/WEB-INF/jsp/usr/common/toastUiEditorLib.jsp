@@ -10,6 +10,7 @@
 	src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <link rel="stylesheet"
 	href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+<link rel="stylesheet" href="https://nhn.github.io/tui.editor/latest/dist/cdn/theme/toastui-editor-dark.css">	
 
 <!-- 토스트 UI 에디터 플러그인, 컬러피커 -->
 <link rel="stylesheet"
@@ -292,12 +293,14 @@ function getUriParams(uri) {
 	    const $node = $(node);
 	    const $initialValueEl = $node.find(' > script');
 	    const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
+	    const theme = localStorage.getItem('theme') ?? "light";
 
 	    const editor = new toastui.Editor({
 	      el: node,
 	      previewStyle: 'tab',
 	      initialValue: initialValue,
 	      height:'600px',
+	      theme: theme,
 	      plugins: [
 	        [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
 	        [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
@@ -324,11 +327,13 @@ function getUriParams(uri) {
 	    const $initialValueEl = $node.find(' > script');
 	    const initialValue = $initialValueEl.length == 0 ? '' : $initialValueEl.html().trim();
 	    $node.empty();
+	    const theme = localStorage.getItem('theme') ?? "light";
 
 	    let viewer = new toastui.Editor.factory({
 	      el: node,
 	      initialValue: initialValue,
 	      viewer:true,
+	      theme: theme,
 	      plugins: [
 	        [toastui.Editor.plugin.chart, ToastEditor__chartOptions],
 	        [toastui.Editor.plugin.codeSyntaxHighlight, {highlighter:Prism}],
