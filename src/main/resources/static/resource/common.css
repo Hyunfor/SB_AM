@@ -14,6 +14,7 @@
 
 html > body,  html > body .toastui-editor-contents, html > body .ProseMirror {
 	font-family: 'KIMM_Bold', sans-serif;
+	text-underline-position: under;
 }
 
 html > body .toastui-editor-contents, html > body .ProseMirror {
