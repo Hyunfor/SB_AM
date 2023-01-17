@@ -1,5 +1,7 @@
 package com.khd.exam.demo.repository;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -75,6 +77,73 @@ public interface MemberRepository { // class는 사용 불가능 100% 추상메�
 				WHERE id = #{loginedMemberId}
 			""")
 	public void doPassWordModify(int loginedMemberId, String loginPw);
+	
+	@Select("""
+			<script>
+				SELECT COUNT(*)
+					FROM `member`
+					WHERE 1 = 1
+					<if test="authLevel != 0">
+						AND authLevel = #{authLevel}
+					</if>
+					<if test="searchKeyword != ''">
+						<choose>
+							<when test="searchKeywordTypeCode == 'loginId'">
+								AND loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordTypeCode == 'name'">
+								AND name LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordTypeCode == 'nickname'">
+								AND nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<otherwise>
+								AND (
+										loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+										OR name LIKE CONCAT('%', #{searchKeyword}, '%')
+										OR nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+									)
+							</otherwise>
+						</choose>
+					</if>
+			</script>
+			""")
+	public int getMembersCount(String authLevel, String searchKeywordTypeCode, String searchKeyword);
+
+	@Select("""
+			<script>
+				SELECT *
+					FROM `member`
+					WHERE 1 = 1
+					<if test="authLevel != 0">
+						AND authLevel = #{authLevel}
+					</if>
+					<if test="searchKeyword != ''">
+						<choose>
+							<when test="searchKeywordTypeCode == 'loginId'">
+								AND loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordTypeCode == 'name'">
+								AND name LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<when test="searchKeywordTypeCode == 'nickname'">
+								AND nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+							</when>
+							<otherwise>
+								AND (
+										loginId LIKE CONCAT('%', #{searchKeyword}, '%')
+										OR name LIKE CONCAT('%', #{searchKeyword}, '%')
+										OR nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+									)
+							</otherwise>
+						</choose>
+					</if>
+					ORDER BY id DESC
+					LIMIT #{limitStart}, #{itemsInAPage}
+			</script>
+			""")
+	public List<Member> getMembers(String authLevel, String searchKeywordTypeCode, String searchKeyword, int limitStart,
+			int itemsInAPage);
 		
 
 }

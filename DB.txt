@@ -329,7 +329,20 @@ SELECT SHA2('test1', 256);
 UPDATE `member`
 SET loginPw = SHA2(loginPw, 256);
 
+*/
 
+# 회원 수 늘리기
+/*
+INSERT Into `member`
+(
+	regDate, updateDate, loginId, loginPw, `name`, nickname, cellphoneNum, email
+)
+select now(), now(), FORMAT(RAND() * 3, 4), 'test', CONCAT('test_',FORMAT(RAND() * 3, 4)), CONCAT('test_',FORMAT(RAND() * 3, 4)), FLOOR(RAND() * 100000000), CONCAT('test_',FORMAT(RAND() * 3, 4))
+from `member`
+
+select COUNT(*)
+from `member`
+*/
 
 # 난수 생성
 SELECT FLOOR(RAND() * 3) + 1

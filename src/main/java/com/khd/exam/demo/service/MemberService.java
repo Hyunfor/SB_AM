@@ -1,5 +1,7 @@
 package com.khd.exam.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -108,6 +110,17 @@ public class MemberService {
 
 	private void setTempPassword(Member member, String tempPassword) {
 		memberRepository.doPassWordModify(member.getId(), Utility.sha256(tempPassword));
+	}
+	
+	
+	public int getMembersCount(String authLevel, String searchKeywordTypeCode, String searchKeyword) {
+		return memberRepository.getMembersCount(authLevel, searchKeywordTypeCode, searchKeyword);
+	}
+
+	public List<Member> getMembers(String authLevel, String searchKeywordTypeCode, String searchKeyword,
+			int itemsInAPage, int page) {
+		int limitStart = (page - 1) * itemsInAPage;
+		return memberRepository.getMembers(authLevel, searchKeywordTypeCode, searchKeyword, limitStart, itemsInAPage);
 	}
 
 	
