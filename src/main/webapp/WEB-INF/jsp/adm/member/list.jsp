@@ -37,36 +37,87 @@
 					<table class="table w-full">
 						<thead>
 							<tr>
+								<th><input type="checkbox" class="checkbox-all-member-id" /></th>
 								<th>번호</th>
 								<th>가입날짜</th>
 								<th>수정날짜</th>
 								<th>아이디</th>
 								<th>이름</th>
 								<th>닉네임</th>
+								<th>삭제여부</th>
+								<th>삭제날짜</th>
 							</tr>
 						</thead>
 
 						<tbody>
 							<c:forEach var="member" items="${members}">
-								<tr class="hover">
-									<td>${member.id}</td>
-									<td>${member.regDate.substring(2,16)}</td>
-									<td>${member.updateDate.substring(2,16)}</td>
-									<td>${member.loginId}</td>
-									<td>${member.name}</td>
-									<td>${member.nickname}</td>
-								</tr>
+								<c:if test="${member.authLevel != 7 }">
+									<tr class="hover">
+										<c:choose>
+											<c:when test="${member.delStatus != true }">
+												<td><input type="checkbox" class="checkbox-member-id" value="${member.id }" /></td>
+											</c:when>
+											<c:otherwise>
+												<td><input type="checkbox" class="checkbox-member-id" value="${member.id }" disabled/></td>
+											</c:otherwise>
+										</c:choose>
+										<td>${member.id}</td>
+										<td>${member.regDate.substring(2,16)}</td>
+										<td>${member.updateDate.substring(2,16)}</td>
+										<td>${member.loginId}</td>
+										<td>${member.name}</td>
+										<td>${member.nickname}</td>
+										<td>${member.delStatusStr()}</td>
+										<td>${member.delDateStr()}</td>
+									</tr>
+								</c:if>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 			</c:otherwise>
 		</c:choose>
-<!-- 		<div class="mt-2 flex justify-end"> -->
-<%-- 			<c:if test="${rq.getLoginedMemberId() != 0 }"> --%>
-<!-- 				<a class="btn-text-link btn btn-active btn-ghost" href="/usr/article/write">WRITE</a> -->
-<%-- 			</c:if> --%>
-<!-- 		</div> -->
+
+		<script>
+			$('.checkbox-all-member-id').change(function() {
+				const allCheck = $(this);
+				const allChecked = allCheck.prop('checked');
+				$('.checkbox-member-id').prop('checked', allChecked);
+				$('.checkbox-member-id:is(:disabled)').prop('checked', false)
+			})
+			
+			$('.checkbox-member-id').change(function() {
+				const checkboxMemberIdCount = $('.checkbox-member-id').length;
+				const checkboxMemberIdCheckedCount = $('.checkbox-member-id:checked').length;
+				const checkboxDisabledCount = $('.checkbox-member-id:is(:disabled)').length;
+				const allChecked = (checkboxMemberIdCount - checkboxDisabledCount) == checkboxMemberIdCheckedCount;
+				$('.checkbox-all-member-id').prop('checked', allChecked);
+			})
+		</script>
+
+		<div class="mt-2 flex justify-end">
+			<button class="btn-text-link btn btn-active btn-ghost btn-delete-selected-members">회원 삭제</button>
+		</div>
+
+		<form method="POST" name="do-delete-members-form" action="doDeleteMembers">
+			<input type="hidden" name="ids" value="" />
+		</form>
+
+		<script>
+			$('.btn-delete-selected-members').click(function() {
+				const values = $('.checkbox-member-id:checked').map((index, el) => el.value).toArray();
+				if (values.length == 0) {
+					alert('선택한 회원이 없습니다');
+					return;
+				}
+				if (confirm('선택한 회원을 삭제하시겠습니까?') == false) {
+					return;
+				}
+				$('input[name=ids]').val(values.join(','));
+				$('form[name=do-delete-members-form]').submit();
+			})
+		</script>
+		
 		<div class="page-menu mt-2 flex justify-center">
 			<div class="btn-group">
 				<c:set var="pageMenuLen" value="5" />

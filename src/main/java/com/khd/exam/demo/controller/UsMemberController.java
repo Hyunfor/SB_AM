@@ -127,6 +127,9 @@ public class UsMemberController {
 		}
 		if (member.getLoginPw().equals(Utility.sha256(loginPw)) == false) {// 비밀번호가 일치하지 않을 시
 			return Utility.jsHistoryBack("비밀번호가 일치하지 않습니다.");
+		}		
+		if (member.isDelStatus() == true) {
+			return Utility.jsHistoryBack("사용할 수 없는 계정입니다");
 		}
 
 		rq.login(member);
