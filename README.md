@@ -1,2 +1,2 @@
 # SB_AM 
-## Boadr_Aritcle
+## Board_Aritcle
